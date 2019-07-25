@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Translation.DotNetWebsite</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    </environment>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <script type="application/json" id="CloudTranslationConfig">
+        {
+        "Settings": {
+        "DefaultLanguage": "en",
+        "TranslatorProvider": "Azure",
+        "TranslatorProviderKey": "5900190c91074f94b1baea93fa1be549",
+        "UrlLanguageLocation": "Subdirectory",
+        "LogTranslationsFromProvider": true
+        },
+        "Languages": [
+        {
+        "Code": "en",
+        "DisplayName": "English"
+        },
+        {
+        "Code": "es",
+        "DisplayName": "Spanish"
+        },
+        {
+        "Code": "fr",
+        "DisplayName": "Français"
+        },
+        {
+        "Code": "fr-ca",
+        "DisplayName": "Français (Canada)"
+        },
+        {
+        "Code": "ar",
+        "DisplayName": "العربية",
+        "Direction": "rtl"
+        }
+        ],
+        "Translations": [
+        {
+        "en": "Logo",
+        "ar": "شعار"
+        },
+        {
+        "en": "Welcome",
+        "ar": "اهلا وسهلا",
+        "fr": "Bienvenu"
+        },
+        {
+        "en": "Home",
+        "ar": "الصفحة الرئيسية"
+        },
+        {
+        "en": "Translate This",
+        "ar": "ترجمة هذا"
+        },
+        {
+        "en": "Don't Translate This",
+        "ar": "لا تترجم هذا"
+        },
+        {
+        "en": "Numbers",
+        "ar": "ارقام"
+        },
+        {
+        "en": "1",
+        "ar": "1"
+        },
+        {
+        "en": "1234567890",
+        "ar": "1234567890"
+        },
+        {
+        "en": "1 2 3 4 5 6 7 8 9 0",
+        "ar": "1 2 3 4 5 6 7 8 9 0"
+        },
+        {
+        "en": "-123",
+        "ar": "-123"
+        },
+        {
+        "en": "Phone Numbers",
+        "ar": "أرقام الهواتف"
+        },
+        {
+        "en": "+11231231234",
+        "ar": "+11231231234"
+        },
+        {
+        "en": "+1 (123) 123 1234",
+        "ar": "+1 (123) 123 123"
+        },
+        {
+        "en": "+(123) 123 1234",
+        "ar": "+(123) 123 1234"
+        },
+        {
+        "en": "+ ( 1 ) 2 3 4 5 6 7 8 9 0",
+        "ar": "+ (1) 2 3 4 5 6 7 8 9 0"
+        },
+        {
+        "en": "email",
+        "ar": "البريد الالكتروني"
+        },
+        {
+        "en": "email@domainname.com",
+        "ar": "email@domainname.com"
+        }
+        ]
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a translate="no" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Translation.DotNetWebsite</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <partial name="_CookieConsentPartial" />
+
+    <div class="CloudTranslationSelectionContainer">
+        <select class="CloudTranslationSelection"></select>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer translate="no">
+            <p>&copy; 2019 - Translation.DotNetWebsite</p>
+        </footer>
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>
+    </environment>
+
+    <script src="~/js/cloudtranslation.js"></script>
+
+    <environment include="Development">
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

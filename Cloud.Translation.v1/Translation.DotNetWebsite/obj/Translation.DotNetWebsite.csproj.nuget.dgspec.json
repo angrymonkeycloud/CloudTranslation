@@ -1,0 +1,84 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\Cloud.Translation.v1\\Translation.DotNetWebsite\\Translation.DotNetWebsite.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\Cloud.Translation.v1\\Translation.DotNetWebsite\\Translation.DotNetWebsite.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\Cloud.Translation.v1\\Translation.DotNetWebsite\\Translation.DotNetWebsite.csproj",
+        "projectName": "Translation.DotNetWebsite",
+        "projectPath": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\Cloud.Translation.v1\\Translation.DotNetWebsite\\Translation.DotNetWebsite.csproj",
+        "packagesPath": "C:\\Users\\eliet\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\Cloud.Translation.v1\\Translation.DotNetWebsite\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\eliet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\eliet\\OneDrive - Angry Monkey Agency\\NuGetPackages": {},
+          "https://angrymonkeyagency.pkgs.visualstudio.com/_packaging/Public/nuget/v3/index.json": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.TypeScript.MSBuild": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.6.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

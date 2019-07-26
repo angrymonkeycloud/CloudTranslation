@@ -26,8 +26,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.AspNetCore.Razor.Design": "2.1.2",
-          "Microsoft.NETCore.App": "2.1.0",
-          "Microsoft.TypeScript.MSBuild": "3.6.0"
+          "Microsoft.NETCore.App": "2.1.0"
         },
         "runtime": {
           "Translation.DotNetWebsite.dll": {}
@@ -37,7 +36,6 @@
         }
       },
       "Microsoft.AspNetCore.Razor.Design/2.1.2": {},
-      "Microsoft.TypeScript.MSBuild/3.6.0": {},
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "dependencies": {
           "Newtonsoft.Json": "11.0.2",
@@ -3173,13 +3171,6 @@
       "sha512": "sha512-fe1+dpy+eM4IX1zodsvkihO1Spuj0NecfStWzvkYoMo7/ziOsqSv4vFK36ZpBfHa4gpdCEwaU46EPzdq+ZDYhQ==",
       "path": "microsoft.aspnetcore.razor.design/2.1.2",
       "hashPath": "microsoft.aspnetcore.razor.design.2.1.2.nupkg.sha512"
-    },
-    "Microsoft.TypeScript.MSBuild/3.6.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-1suc2QDvzroq6gLfZxK/ZsUF653x/D7x5Y1NIn9aPGsLw2zo7jwSUa5ihfO7rWUY9Jtme3x2xchdaZuogpehDw==",
-      "path": "microsoft.typescript.msbuild/3.6.0",
-      "hashPath": "microsoft.typescript.msbuild.3.6.0.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",

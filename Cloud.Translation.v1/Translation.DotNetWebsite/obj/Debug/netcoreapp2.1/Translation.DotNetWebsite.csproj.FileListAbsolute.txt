@@ -37,7 +37,6 @@ C:\Users\eliet\source\repos\CloudTranslation.v1\Cloud.Translation.v1\Translation
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\bin\Debug\netcoreapp2.1\appsettings.Development.json
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\bin\Debug\netcoreapp2.1\appsettings.json
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
-C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\bin\Debug\netcoreapp2.1\tsconfig.json
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\bin\Debug\netcoreapp2.1\Translation.DotNetWebsite.deps.json
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\bin\Debug\netcoreapp2.1\Translation.DotNetWebsite.runtimeconfig.json
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\bin\Debug\netcoreapp2.1\Translation.DotNetWebsite.runtimeconfig.dev.json
@@ -69,4 +68,3 @@ C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Transla
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\obj\Debug\netcoreapp2.1\Translation.DotNetWebsite.dll
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\obj\Debug\netcoreapp2.1\Translation.DotNetWebsite.pdb
 C:\Users\eliet\Source\Repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\obj\Debug\netcoreapp2.1\Translation.DotNetWebsite.csproj.CopyComplete
-C:\Users\eliet\source\repos\Github\CloudTranslation\Cloud.Translation.v1\Translation.DotNetWebsite\obj\Debug\netcoreapp2.1\Translation.DotNetWebsite.csprojAssemblyReference.cache

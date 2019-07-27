@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cloud Translation Test Page</title>
+
+    <script type="application/json" id="CloudTranslationConfig">
+        {
+            "Settings": {
+                "DefaultLanguage": "en",
+                "LogTranslationsFromProvider": true,
+
+                "TranslatorProvider": "Azure",
+
+                "TranslatorProviderKey": "5900190c91074f94b1baea93fa1be549",
+
+                "UrlLanguageLocation": ""
+            },
+            "Languages": [{
+                "Code": "en",
+                "DisplayName": "English"
+            }, {
+                "Code": "es",
+                "DisplayName": "Spanish"
+            }, {
+                "Code": "fr",
+                "DisplayName": "Français"
+            }, {
+                "Code": "fr-ca",
+                "DisplayName": "Français (Canada)"
+            }, {
+                "Code": "ar",
+                "DisplayName": "العربية",
+                "Direction": "rtl"
+            }],
+            "Translations": [{
+                "en": "Logo",
+                "ar": "شعار"
+            }, {
+                "en": "Welcome",
+                "ar": "اهلا وسهلا",
+                "fr": "Bienvenu"
+            }, {
+                "en": "Home",
+                "ar": "الصفحة الرئيسية"
+            }, {
+                "en": "Translate This",
+                "ar": "ترجمة هذا"
+            }, {
+                "en": "Don't Translate This",
+                "ar": "لا تترجم هذا"
+            }, {
+                "en": "Numbers",
+                "ar": "ارقام"
+            }, {
+                "en": "1",
+                "ar": "1"
+            }, {
+                "en": "1234567890",
+                "ar": "1234567890"
+            }, {
+                "en": "1 2 3 4 5 6 7 8 9 0",
+                "ar": "1 2 3 4 5 6 7 8 9 0"
+            }, {
+                "en": "-123",
+                "ar": "-123"
+            }, {
+                "en": "Phone Numbers",
+                "ar": "أرقام الهواتف"
+            }, {
+                "en": "+11231231234",
+                "ar": "+11231231234"
+            }, {
+                "en": "+1 (123) 123 1234",
+                "ar": "+1 (123) 123 123"
+            }, {
+                "en": "+(123) 123 1234",
+                "ar": "+(123) 123 1234"
+            }, {
+                "en": "+ ( 1 ) 2 3 4 5 6 7 8 9 0",
+                "ar": "+ (1) 2 3 4 5 6 7 8 9 0"
+            }, {
+                "en": "email",
+                "ar": "البريد الالكتروني"
+            }, {
+                "en": "email@domainname.com",
+                "ar": "email@domainname.com"
+            }]
+        }
+    </script>
+
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="../dist/cloudtranslation.js"></script>
+</head>
+
+<body>
+
+    <div class="CloudTranslationSelectionContainer">
+        <select class="CloudTranslationSelection"></select>
+    </div>
+
+    <div class="TestStyle" translate="no" style="border: 0 solid #000000; border-right-width: 2px; border-left-width: 10px; padding-left: 15px;">
+        Don't Translate This
+        <div translate="yes">
+            Translate This
+            <div translate="no">
+                Don't Translate This
+                <div translate="yes">
+                    Translate This
+                    <div translate="no">
+                        Don't Translate This
+                        <div>
+                            Don't Translate This
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <img title="Logo" src="../images/CloudLogo-64x64.png" />
+
+    <div class="DesignBox"></div>
+
+    <h2>Text for Auto Translation</h2>
+    <div>I'm so hungry.</div>
+
+    <h2>Numbers</h2>
+    <div>1</div>
+    <div>1234567890</div>
+    <div>1 2 3 4 5 6 7 8 9 0</div>
+    <div>-123</div>
+
+    <h2>Phone Numbers</h2>
+    <div>+11231231234</div>
+    <div>+1 (123) 123 1234</div>
+    <div>+(123) 123 1234</div>
+    <div>+ ( 1 ) 2 3 4 5 6 7 8 9 0</div>
+
+    <div><a href="tel:+11231231234">(123) 123 1234</a></div>
+    <div><a href="tel:+11231231234">+ (123) 123 1234</a></div>
+
+    <h2>email</h2>
+    <div>email@domainname.com</div>
+    <a href="mailto:email@domainname.com">email@domainname.com</a>
+</body>
+
+</html>

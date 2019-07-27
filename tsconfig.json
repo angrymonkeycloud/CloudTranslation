@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": false,
+    "removeComments": true,
+    "sourceMap": true,
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [ "es2015", "dom" ]
+  },
+  "exclude": [
+    "node_modules",
+    "Cloud.Translation.v1"
+  ]
+}

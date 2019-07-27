@@ -1,0 +1,29 @@
+{
+  "name": "cloudtranslation",
+  "version": "1.0.0",
+  "description": "JavaScript library for translating websites into multiple languages.",
+  "main": "./dist/cloudtranslation.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cloud",
+    "translation",
+    "translator",
+    "translate",
+    "web",
+    "website",
+    "html"
+  ],
+  "author": "Angry Monkey",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-minify": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^5.0.1",
+    "jquery": "^3.4.1",
+    "typescript": "^3.5.3"
+  }
+}

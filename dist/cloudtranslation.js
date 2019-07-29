@@ -442,7 +442,7 @@ var CloudTranslation = (function () {
                         if (texts.length === 0)
                             return [2, []];
                         bodyData = '';
-                        texts.forEach(function (text) { bodyData += '{"Text": "' + text.replace(/"/g, '\\"') + '"},'; });
+                        texts.forEach(function (text) { bodyData += '{"Text": "' + text + '"},'; });
                         return [4, $.ajax({
                                 url: 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=' + this.DefaultLanguage.Code + '&to=' + this.CurrentLanguage.Code,
                                 type: "POST",
@@ -592,7 +592,7 @@ var CloudTranslation = (function () {
                             try {
                                 switch (status.Result) {
                                     case TranslationStatusResult.Failed:
-                                        originalTexts_1.push(status.Text);
+                                        originalTexts_1.push(status.Text.replace(/"/g, '\\"'));
                                         break;
                                     default:
                                         break;

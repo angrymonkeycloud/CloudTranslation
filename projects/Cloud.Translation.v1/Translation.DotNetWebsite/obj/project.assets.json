@@ -11816,11 +11816,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\Cloud.Translation.v1\\Translation.DotNetWebsite\\Translation.DotNetWebsite.csproj",
+      "projectUniqueName": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\projects\\Cloud.Translation.v1\\Translation.DotNetWebsite\\Translation.DotNetWebsite.csproj",
       "projectName": "Translation.DotNetWebsite",
-      "projectPath": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\Cloud.Translation.v1\\Translation.DotNetWebsite\\Translation.DotNetWebsite.csproj",
+      "projectPath": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\projects\\Cloud.Translation.v1\\Translation.DotNetWebsite\\Translation.DotNetWebsite.csproj",
       "packagesPath": "C:\\Users\\eliet\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\Cloud.Translation.v1\\Translation.DotNetWebsite\\obj\\",
+      "outputPath": "C:\\Users\\eliet\\source\\repos\\Github\\CloudTranslation\\projects\\Cloud.Translation.v1\\Translation.DotNetWebsite\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

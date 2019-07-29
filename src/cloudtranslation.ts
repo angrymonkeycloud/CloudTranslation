@@ -523,7 +523,7 @@ class CloudTranslation {
         
         let bodyData = '';
         
-        texts.forEach((text) => { bodyData += '{"Text": "' + text + '"},' });
+        texts.forEach((text) => { bodyData += '{"Text": "' + text.replace(/"/g, '\\"') + '"},' });
         
         let data = await $.ajax({
             url: 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=' + this.DefaultLanguage.Code + '&to=' + this.CurrentLanguage.Code,

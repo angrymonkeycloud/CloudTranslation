@@ -597,7 +597,12 @@ class CloudTranslation {
         let result: string;
         
         // Local Storage
-        result = localStorage.getItem('lang');
+        try{
+            result = localStorage.getItem('lang');
+        }catch{
+            console.log('localStorage is not supported.');
+            result = null;
+        }
         
         if (result !== null)
         localStorageLanguage = this.ParseLanguage(result);
@@ -609,15 +614,7 @@ class CloudTranslation {
             let urlValue: string;
             
             if (this.UrlLanguageLocation === 'Subdirectory')
-            urlValue = window.location.pathname.split('/')[1]
-            else if (this.UrlLanguageLocation.indexOf('QueryString') !== -1) {
-                
-                if (this.UrlLanguageLocation.indexOf('{') !== - 1)
-                urlValue = this.UrlLanguageLocation.split('{')[1].split('}')[0];
-                else urlValue = 'lang';
-                
-                urlValue = new URLSearchParams(window.location.search).get('urlValue');
-            }
+            urlValue = window.location.pathname.split('/')[1];
             
             if (urlValue !== undefined)
             if (urlValue.length === 2 || (urlValue.length === 5 && urlValue.indexOf('-') === 2)) {
@@ -688,20 +685,16 @@ class CloudTranslation {
             
             history.replaceState(null, null, pathnameSplitted.join('/'));
         }
-        else if (this.UrlLanguageLocation.indexOf('QueryString') !== -1) {
-            
-            //let urlValue: string;
-            //if (this.UrlLanguageLocation.indexOf('{') !== - 1)
-            //    urlValue = this.UrlLanguageLocation.split('{')[1].split('}')[0];
-            //else urlValue = 'lang';
-            
-            //urlValue = new URLSearchParams(window.location.search).get('urlValue');
-        }
     }
     
     static SetCurrentLanguage(languageCode: string): void {
         this._currentLanguage = this.ParseLanguage(languageCode);
-        localStorage.setItem('lang', this._currentLanguage.Code);
+        
+        try{
+            localStorage.setItem('lang', this._currentLanguage.Code);
+        }catch{
+         console.log('localStorage is not supported.');
+        }
         this.UpdateUrlLanguage();
     }
     

@@ -502,20 +502,19 @@ var CloudTranslation = (function () {
         var urlLanguage;
         var browserLanguage;
         var result;
-        result = localStorage.getItem('lang');
+        try {
+            result = localStorage.getItem('lang');
+        }
+        catch (_a) {
+            console.log('localStorage is not supported.');
+            result = null;
+        }
         if (result !== null)
             localStorageLanguage = this.ParseLanguage(result);
         if (this.UrlLanguageLocation !== undefined) {
             var urlValue_1;
             if (this.UrlLanguageLocation === 'Subdirectory')
                 urlValue_1 = window.location.pathname.split('/')[1];
-            else if (this.UrlLanguageLocation.indexOf('QueryString') !== -1) {
-                if (this.UrlLanguageLocation.indexOf('{') !== -1)
-                    urlValue_1 = this.UrlLanguageLocation.split('{')[1].split('}')[0];
-                else
-                    urlValue_1 = 'lang';
-                urlValue_1 = new URLSearchParams(window.location.search).get('urlValue');
-            }
             if (urlValue_1 !== undefined)
                 if (urlValue_1.length === 2 || (urlValue_1.length === 5 && urlValue_1.indexOf('-') === 2)) {
                     this.Languages.forEach(function (language) {
@@ -567,12 +566,15 @@ var CloudTranslation = (function () {
                 pathnameSplitted.splice(1, 0, this.CurrentLanguage.Code);
             history.replaceState(null, null, pathnameSplitted.join('/'));
         }
-        else if (this.UrlLanguageLocation.indexOf('QueryString') !== -1) {
-        }
     };
     CloudTranslation.SetCurrentLanguage = function (languageCode) {
         this._currentLanguage = this.ParseLanguage(languageCode);
-        localStorage.setItem('lang', this._currentLanguage.Code);
+        try {
+            localStorage.setItem('lang', this._currentLanguage.Code);
+        }
+        catch (_a) {
+            console.log('localStorage is not supported.');
+        }
         this.UpdateUrlLanguage();
     };
     CloudTranslation.TranslateDOM = function () {

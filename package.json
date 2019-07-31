@@ -21,6 +21,7 @@
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-minify": "^3.1.0",
+    "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^5.0.1",
     "jquery": "^3.4.1",

@@ -68,6 +68,7 @@ class CloudTranslation {
     private static _defaultLanguage: Language;
     private static _currentLanguage: Language;
     private static _configurationData;
+    private static _supportsTranslateAttribute;
     
     // Private Properties
     
@@ -101,6 +102,36 @@ class CloudTranslation {
         return false;
         
         return this.ConfigurationData.Settings.LogTranslationsFromProvider;
+    }
+    
+    private static get SupportsTranslateAttribute(){
+        
+        if (this._supportsTranslateAttribute !== undefined)
+        return this._supportsTranslateAttribute;
+        
+        return this._supportsTranslateAttribute = $('body')[0].translate !== undefined; 
+    }
+    
+    private static DoTranslateElement(element:HTMLElement) : boolean{
+        
+        if (this.SupportsTranslateAttribute){
+            if (element.translate === false || ($(element).closest('*[translate]')[0] !== undefined && $(element).closest('*[translate]')[0].translate === false))
+            return false;
+            else return true;    
+        }
+        
+        let attribute = $(element).attr('translate');
+        
+        if (attribute === undefined){
+            if ($(element).closest('*[translate]')[0] !== undefined && $(element).closest('*[translate]').attr('translate').toLowerCase() === 'no')
+            return false;
+            else return true;
+        }
+        
+        if (attribute.toLowerCase() === 'no')
+        return false;
+        
+        return true;
     }
     
     private static get ConfigurationData() {
@@ -278,7 +309,7 @@ class CloudTranslation {
         
         // Ignore attribute: translate="no"
         
-        if (element.translate === false || ($(element).closest('*[translate]')[0] !== undefined && $(element).closest('*[translate]')[0].translate === false))
+        if (!this.DoTranslateElement(element))
         return [];
         
         // Ignore links with mailto: and tel:

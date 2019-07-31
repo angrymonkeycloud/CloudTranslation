@@ -131,6 +131,33 @@ var CloudTranslation = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(CloudTranslation, "SupportsTranslateAttribute", {
+        get: function () {
+            if (this._supportsTranslateAttribute !== undefined)
+                return this._supportsTranslateAttribute;
+            return this._supportsTranslateAttribute = $('body')[0].translate !== undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CloudTranslation.DoTranslateElement = function (element) {
+        if (this.SupportsTranslateAttribute) {
+            if (element.translate === false || ($(element).closest('*[translate]')[0] !== undefined && $(element).closest('*[translate]')[0].translate === false))
+                return false;
+            else
+                return true;
+        }
+        var attribute = $(element).attr('translate');
+        if (attribute === undefined) {
+            if ($(element).closest('*[translate]')[0] !== undefined && $(element).closest('*[translate]').attr('translate').toLowerCase() === 'no')
+                return false;
+            else
+                return true;
+        }
+        if (attribute.toLowerCase() === 'no')
+            return false;
+        return true;
+    };
     Object.defineProperty(CloudTranslation, "ConfigurationData", {
         get: function () {
             if (CloudTranslation._configurationData !== undefined)
@@ -267,7 +294,7 @@ var CloudTranslation = (function () {
                 $(element).removeData('_ctoriginalstyle');
             }
         }
-        if (element.translate === false || ($(element).closest('*[translate]')[0] !== undefined && $(element).closest('*[translate]')[0].translate === false))
+        if (!this.DoTranslateElement(element))
             return [];
         if (element.tagName === 'A') {
             var elementHref = element.getAttribute('href');

@@ -24,7 +24,6 @@ gulp.task('withoutVersioning', function() {
 
 gulp.task('withVersioning', function() {
 
-    // Please don't modify
     var version = '1.0.0';
 
     return tsProject.src()

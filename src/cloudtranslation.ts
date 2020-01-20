@@ -693,7 +693,7 @@ class CloudTranslation {
         try{
             localStorage.setItem('lang', this._currentLanguage.Code);
         }catch{
-         console.log('localStorage is not supported.');
+            console.log('localStorage is not supported.');
         }
         this.UpdateUrlLanguage();
     }

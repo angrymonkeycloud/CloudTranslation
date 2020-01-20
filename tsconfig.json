@@ -3,13 +3,13 @@
     "noImplicitAny": false,
     "noEmitOnError": false,
     "removeComments": true,
-    "sourceMap": true,
+    "declaration": true,
     "target": "es5",
-    "module": "commonjs",
     "lib": [ "es2015", "dom" ]
   },
   "exclude": [
     "node_modules",
-    "projects"
+    "projects",
+    "dist"
   ]
 }

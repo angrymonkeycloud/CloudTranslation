@@ -1,41 +1,39 @@
 var gulp = require('gulp');
-var sourcemaps = require('gulp-sourcemaps');
 var minify = require('gulp-minify');
 var rename = require('gulp-rename');
 var ts = require('gulp-typescript');
 var tsProject = ts.createProject('tsconfig.json');
 
-gulp.task('default', gulp.series('withoutVersioning', 'withVersioning'));
+//------------------------------
+// VERSIONING
 
-gulp.task('withoutVersioning', function() {
+// Major: major updates.
+// Minor: minor updates which affects previous version.
+// Patch: minor updates or bug fixing which doesn't affect previous version.
+
+var version = '1.0.0';
+
+//------------------------------;
+
+gulp.task('distribute', function() {
+
+    var minorVersioning = version.split('.')[0] + '.' + version.split('.')[1];
+
+    // copy d.ts
+    gulp.src('src/cloudtranslation.d.ts')
+        .pipe(gulp.dest('dist/' + version))
+        .pipe(gulp.dest('dist/' + minorVersioning));
+
     return tsProject.src()
         .pipe(tsProject())
         .js
-        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(minify({
             ext: {
                 min: '.min.js'
             }
         }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('dist'));
-
+        .pipe(gulp.dest('dist/' + version))
+        .pipe(gulp.dest('dist/' + minorVersioning));
 });
 
-gulp.task('withVersioning', function() {
-
-    var version = '1.0.0';
-
-    return tsProject.src()
-        .pipe(tsProject())
-        .js
-        .pipe(rename('cloudtranslation-' + version + '.js'))
-        .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(minify({
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('dist'));
-});
+gulp.task('default', gulp.series('distribute'));

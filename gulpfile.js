@@ -11,18 +11,15 @@ var tsProject = ts.createProject('tsconfig.json');
 // Minor: minor updates which affects previous version.
 // Patch: minor updates or bug fixing which doesn't affect previous version.
 
-var version = '1.0.0';
+var version = '1.1.0';
 
 //------------------------------;
 
 gulp.task('distribute', function() {
 
-    var minorVersioning = version.split('.')[0] + '.' + version.split('.')[1];
-
     // copy d.ts
     gulp.src('src/cloudtranslation.d.ts')
-        .pipe(gulp.dest('dist/' + version))
-        .pipe(gulp.dest('dist/' + minorVersioning));
+        .pipe(gulp.dest('dist/' + version));
 
     return tsProject.src()
         .pipe(tsProject())
@@ -32,8 +29,7 @@ gulp.task('distribute', function() {
                 min: '.min.js'
             }
         }))
-        .pipe(gulp.dest('dist/' + version))
-        .pipe(gulp.dest('dist/' + minorVersioning));
+        .pipe(gulp.dest('dist/' + version));
 });
 
 gulp.task('default', gulp.series('distribute'));

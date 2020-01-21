@@ -7,16 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cloud Translation Test Page</title>
 
-    <script type="application/json" id="CloudTranslationConfig">
+    <script type="application/json" id="cloudtranslation-config">
         {
             "Settings": {
                 "DefaultLanguage": "en",
                 "LogTranslationsFromProvider": true,
-
-                "TranslatorProvider": "Azure",
-
-                "TranslatorProviderKey": "5900190c91074f94b1baea93fa1be549",
-
+                "TranslatorProvider": "",
+                "TranslatorProviderKey": "",
                 "UrlLanguageLocation": ""
             },
             "Languages": [{
@@ -35,59 +32,6 @@
                 "Code": "ar",
                 "DisplayName": "العربية",
                 "Direction": "rtl"
-            }],
-            "Translations": [{
-                "en": "Logo",
-                "ar": "شعار"
-            }, {
-                "en": "Welcome",
-                "ar": "اهلا وسهلا",
-                "fr": "Bienvenu"
-            }, {
-                "en": "Home",
-                "ar": "الصفحة الرئيسية"
-            }, {
-                "en": "Translate This",
-                "ar": "ترجمة هذا"
-            }, {
-                "en": "Don't Translate This",
-                "ar": "لا تترجم هذا"
-            }, {
-                "en": "Numbers",
-                "ar": "ارقام"
-            }, {
-                "en": "1",
-                "ar": "1"
-            }, {
-                "en": "1234567890",
-                "ar": "1234567890"
-            }, {
-                "en": "1 2 3 4 5 6 7 8 9 0",
-                "ar": "1 2 3 4 5 6 7 8 9 0"
-            }, {
-                "en": "-123",
-                "ar": "-123"
-            }, {
-                "en": "Phone Numbers",
-                "ar": "أرقام الهواتف"
-            }, {
-                "en": "+11231231234",
-                "ar": "+11231231234"
-            }, {
-                "en": "+1 (123) 123 1234",
-                "ar": "+1 (123) 123 123"
-            }, {
-                "en": "+(123) 123 1234",
-                "ar": "+(123) 123 1234"
-            }, {
-                "en": "+ ( 1 ) 2 3 4 5 6 7 8 9 0",
-                "ar": "+ (1) 2 3 4 5 6 7 8 9 0"
-            }, {
-                "en": "email",
-                "ar": "البريد الالكتروني"
-            }, {
-                "en": "email@domainname.com",
-                "ar": "email@domainname.com"
             }]
         }
     </script>
@@ -99,7 +43,7 @@
 <body>
 
     <div class="CloudTranslationSelectionContainer">
-        <select class="CloudTranslationSelection"></select>
+        <select class="cloudtranslation-selection"></select>
     </div>
 
     <div class="TestStyle" translate="no" style="border: 0 solid #000000; border-right-width: 2px; border-left-width: 10px; padding-left: 15px;">

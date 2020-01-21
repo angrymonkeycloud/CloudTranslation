@@ -33,16 +33,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var Translation = (function () {
-    function Translation() {
-        this.Translations = [];
+var Translations = (function () {
+    function Translations() {
+        this.Translation = [];
     }
-    return Translation;
+    return Translations;
 }());
 var TranslationValue = (function () {
-    function TranslationValue(language, text) {
-        this.Language = language;
-        this.Text = text;
+    function TranslationValue() {
     }
     return TranslationValue;
 }());
@@ -80,6 +78,35 @@ var TranslationStatus = (function () {
 var CloudTranslation = (function () {
     function CloudTranslation() {
     }
+    Object.defineProperty(CloudTranslation, "TranslationsList", {
+        get: function () {
+            if (this._translationsList === undefined)
+                this._translationsList = [];
+            return this._translationsList;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CloudTranslation.AddTranslationValue = function (languageCode, defaultText, translatedText) {
+        var translations = this.GetTranslations(languageCode);
+        if (translations === undefined) {
+            translations = new Translations();
+            translations.LanguageCode = languageCode;
+            this._translationsList.push(translations);
+        }
+        var translationValue = new TranslationValue();
+        translationValue.Default = defaultText;
+        translationValue.Text = translatedText;
+        translations.Translation.push(translationValue);
+    };
+    CloudTranslation.GetTranslations = function (languageCode) {
+        var t;
+        this.TranslationsList.forEach(function (translations) {
+            if (translations.LanguageCode === languageCode)
+                t = translations;
+        });
+        return t;
+    };
     Object.defineProperty(CloudTranslation, "NonTranslatedElements", {
         get: function () {
             return ['code', 'html', 'head', 'head > *'];
@@ -162,8 +189,8 @@ var CloudTranslation = (function () {
         get: function () {
             if (CloudTranslation._configurationData !== undefined)
                 return CloudTranslation._configurationData;
-            CloudTranslation._configurationData = JSON.parse($('#CloudTranslationConfig').html());
-            $('#CloudTranslationConfig').remove();
+            CloudTranslation._configurationData = JSON.parse($('#cloudtranslation-config').html());
+            $('#cloudtranslation-config').remove();
             return CloudTranslation._configurationData;
         },
         enumerable: true,
@@ -225,154 +252,228 @@ var CloudTranslation = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CloudTranslation, "Translations", {
-        get: function () {
-            if (CloudTranslation._translations !== undefined)
-                return CloudTranslation._translations;
-            CloudTranslation._translations = [];
-            $.each(CloudTranslation.ConfigurationData.Translations, function (key, value) {
-                var translation = new Translation();
-                translation.Default = new TranslationValue(CloudTranslation.DefaultLanguage.Code, value[CloudTranslation.DefaultLanguage.Code]);
-                var currentLanguageCode = CloudTranslation.CurrentLanguage.Code;
-                if (value[currentLanguageCode] === undefined) {
-                    if (currentLanguageCode.indexOf('-') !== -1)
-                        currentLanguageCode = currentLanguageCode.split('-')[0];
-                    if (value[currentLanguageCode] === undefined)
-                        return;
+    CloudTranslation.Translations = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var translations, jsonPath, fetchResponse, nullTranslations, data, _i, data_1, value;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        translations = this.GetTranslations(CloudTranslation.CurrentLanguage.Code);
+                        if (translations !== undefined && translations.Translation === null)
+                            return [2, undefined];
+                        else if (translations !== undefined)
+                            return [2, translations];
+                        jsonPath = 'translation/' + this.CurrentLanguage.Code.toLowerCase() + '.json';
+                        return [4, fetch(jsonPath)];
+                    case 1:
+                        fetchResponse = _a.sent();
+                        if (!fetchResponse.ok) {
+                            nullTranslations = new Translations();
+                            nullTranslations.LanguageCode = CloudTranslation.CurrentLanguage.Code;
+                            nullTranslations.Translation = null;
+                            this._translationsList.push(nullTranslations);
+                            return [2, undefined];
+                        }
+                        return [4, fetchResponse.json()];
+                    case 2:
+                        data = _a.sent();
+                        for (_i = 0, data_1 = data; _i < data_1.length; _i++) {
+                            value = data_1[_i];
+                            this.AddTranslationValue(CloudTranslation.CurrentLanguage.Code, value['o'], value['t']);
+                        }
+                        return [2, this.GetTranslations(CloudTranslation.CurrentLanguage.Code)];
                 }
-                translation.Translations.push(new TranslationValue(CloudTranslation.CurrentLanguage.Code, value[currentLanguageCode]));
-                CloudTranslation._translations.push(translation);
             });
-            return CloudTranslation._translations;
-        },
-        enumerable: true,
-        configurable: true
-    });
+        });
+    };
+    ;
     CloudTranslation.GetTranslation = function (text) {
-        if (this.CurrentLanguage.Code === this.DefaultLanguage.Code)
-            return text;
-        var translation = null;
-        CloudTranslation.Translations.forEach(function (t) {
-            if (t.Default.Text.trim() === text.trim())
-                translation = t;
+        return __awaiter(this, void 0, void 0, function () {
+            var translation, results;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.CurrentLanguage.Code === this.DefaultLanguage.Code)
+                            return [2, text];
+                        translation = null;
+                        return [4, CloudTranslation.Translations()];
+                    case 1:
+                        results = _a.sent();
+                        if (results === undefined)
+                            return [2, undefined];
+                        results.Translation.forEach(function (t) {
+                            if (t.Default.trim() === text.trim())
+                                translation = t;
+                        });
+                        if (translation === null)
+                            return [2, undefined];
+                        return [2, translation.Text.replace(text.trim(), translation.Text)];
+                }
+            });
         });
-        if (translation === null)
-            return undefined;
-        translation.Translations.forEach(function (t) {
-            if (t.Language === CloudTranslation.CurrentLanguage.Code)
-                text = text.replace(text.trim(), t.Text);
-        });
-        return text;
     };
     CloudTranslation.TranslateElement = function (element) {
-        if (element === undefined)
-            return [];
-        if (CloudTranslation.Direction === 'rtl') {
-            var style = element.style.cssText;
-            if (style !== undefined) {
-                $(element).data('_ctoriginalstyle', style);
-                var rtlStyle = '';
-                for (var i = 0; i < element.style.length; i++) {
-                    var propertyName = element.style[i];
-                    if (CloudTranslation.StylePropertiesToOpposite.indexOf(propertyName) !== -1)
-                        rtlStyle += CloudTranslation.OppositeRTLCSSValues(element, propertyName);
-                    else if (CloudTranslation.StylePropertiesToSwitch.indexOf(propertyName) !== -1)
-                        rtlStyle += CloudTranslation.SwitchRTLCSSValues(element, propertyName);
-                    else
-                        rtlStyle += propertyName + ': ' + element.style[propertyName] + '; ';
+        return __awaiter(this, void 0, void 0, function () {
+            var style, rtlStyle, i, propertyName, originalStyle, elementHref, translationStatuses, status_1, e_1, status_2, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (element === undefined)
+                            return [2, []];
+                        if (CloudTranslation.Direction === 'rtl') {
+                            style = element.style.cssText;
+                            if (style !== undefined) {
+                                $(element).data('_ctoriginalstyle', style);
+                                rtlStyle = '';
+                                for (i = 0; i < element.style.length; i++) {
+                                    propertyName = element.style[i];
+                                    if (CloudTranslation.StylePropertiesToOpposite.indexOf(propertyName) !== -1)
+                                        rtlStyle += CloudTranslation.OppositeRTLCSSValues(element, propertyName);
+                                    else if (CloudTranslation.StylePropertiesToSwitch.indexOf(propertyName) !== -1)
+                                        rtlStyle += CloudTranslation.SwitchRTLCSSValues(element, propertyName);
+                                    else
+                                        rtlStyle += propertyName + ': ' + element.style[propertyName] + '; ';
+                                }
+                                if (rtlStyle !== style) {
+                                    $(element).data('_ctoriginalstyle', style);
+                                    element.style.cssText = rtlStyle;
+                                }
+                            }
+                        }
+                        else {
+                            originalStyle = $(element).data('_ctoriginalstyle');
+                            if (originalStyle !== '') {
+                                $(element).attr('style', originalStyle);
+                                $(element).removeData('_ctoriginalstyle');
+                            }
+                        }
+                        if (!this.DoTranslateElement(element))
+                            return [2, []];
+                        if (element.tagName === 'A') {
+                            elementHref = element.getAttribute('href');
+                            if (elementHref.indexOf(':') !== -1) {
+                                elementHref = elementHref.split(':')[0].toLowerCase();
+                                if (elementHref === 'mailto' || elementHref === 'tel') {
+                                    element.setAttribute('dir', 'ltr');
+                                    return [2, []];
+                                }
+                            }
+                        }
+                        translationStatuses = [];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, CloudTranslation.TranslateElementText(element)];
+                    case 2:
+                        status_1 = _a.sent();
+                        translationStatuses.push(status_1);
+                        return [3, 4];
+                    case 3:
+                        e_1 = _a.sent();
+                        return [3, 4];
+                    case 4:
+                        _a.trys.push([4, 6, , 7]);
+                        return [4, CloudTranslation.TranslateElementTitle(element)];
+                    case 5:
+                        status_2 = _a.sent();
+                        translationStatuses.push(status_2);
+                        return [3, 7];
+                    case 6:
+                        e_2 = _a.sent();
+                        return [3, 7];
+                    case 7: return [2, translationStatuses];
                 }
-                if (rtlStyle !== style) {
-                    $(element).data('_ctoriginalstyle', style);
-                    element.style.cssText = rtlStyle;
-                }
-            }
-        }
-        else {
-            var originalStyle = $(element).data('_ctoriginalstyle');
-            if (originalStyle !== '') {
-                $(element).attr('style', originalStyle);
-                $(element).removeData('_ctoriginalstyle');
-            }
-        }
-        if (!this.DoTranslateElement(element))
-            return [];
-        if (element.tagName === 'A') {
-            var elementHref = element.getAttribute('href');
-            if (elementHref.indexOf(':') !== -1) {
-                elementHref = elementHref.split(':')[0].toLowerCase();
-                if (elementHref === 'mailto' || elementHref === 'tel') {
-                    element.setAttribute('dir', 'ltr');
-                    return [];
-                }
-            }
-        }
-        var translationStatuses = [];
-        try {
-            translationStatuses.push(CloudTranslation.TranslateElementText(element));
-        }
-        catch (e) { }
-        try {
-            translationStatuses.push(CloudTranslation.TranslateElementTitle(element));
-        }
-        catch (e) { }
-        return translationStatuses;
+            });
+        });
     };
     CloudTranslation.OnlyUnique = function (value, index, self) {
         return self.indexOf(value) === index;
     };
     CloudTranslation.TranslateElementText = function (element) {
-        var childNode = element.childNodes[0];
-        if (childNode === undefined)
-            return new TranslationStatus(element, TranslationStatusResult.Ignored);
-        if (childNode.nodeValue === null)
-            return new TranslationStatus(element, TranslationStatusResult.Ignored);
-        if (childNode.nodeValue.trim() === '')
-            return new TranslationStatus(element, TranslationStatusResult.Ignored);
-        var translationStatus = CloudTranslation.Translate(element, '_ctoriginaltext', childNode.nodeValue);
-        switch (translationStatus.Result) {
-            case TranslationStatusResult.Succeeded:
-                childNode.nodeValue = translationStatus.Text;
-                return translationStatus;
-            case TranslationStatusResult.Failed:
-                childNode.nodeValue = translationStatus.Text;
-                translationStatus.Attribute = 'text';
-                return translationStatus;
-            default:
-                return translationStatus;
-        }
+        return __awaiter(this, void 0, void 0, function () {
+            var childNode, translationStatus;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (element.tagName.toLowerCase() == 'script')
+                            return [2, new TranslationStatus(element, TranslationStatusResult.Ignored)];
+                        childNode = element.childNodes[0];
+                        if (childNode === undefined)
+                            return [2, new TranslationStatus(element, TranslationStatusResult.Ignored)];
+                        if (childNode.nodeValue === null)
+                            return [2, new TranslationStatus(element, TranslationStatusResult.Ignored)];
+                        if (childNode.nodeValue.trim() === '')
+                            return [2, new TranslationStatus(element, TranslationStatusResult.Ignored)];
+                        return [4, CloudTranslation.Translate(element, '_ctoriginaltext', childNode.nodeValue)];
+                    case 1:
+                        translationStatus = _a.sent();
+                        switch (translationStatus.Result) {
+                            case TranslationStatusResult.Succeeded:
+                                childNode.nodeValue = translationStatus.Text;
+                                return [2, translationStatus];
+                            case TranslationStatusResult.Failed:
+                                childNode.nodeValue = translationStatus.Text;
+                                translationStatus.Attribute = 'text';
+                                return [2, translationStatus];
+                            default:
+                                return [2, translationStatus];
+                        }
+                        return [2];
+                }
+            });
+        });
     };
     CloudTranslation.TranslateElementTitle = function (element) {
-        var translationStatus = CloudTranslation.Translate(element, '_ctoriginaltitle', element.title);
-        switch (translationStatus.Result) {
-            case TranslationStatusResult.Succeeded:
-                element.title = translationStatus.Text;
-                return translationStatus;
-            case TranslationStatusResult.Failed:
-                element.title = translationStatus.Text;
-                translationStatus.Attribute = 'title';
-                return translationStatus;
-            default:
-                return translationStatus;
-        }
+        return __awaiter(this, void 0, void 0, function () {
+            var translationStatus;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, CloudTranslation.Translate(element, '_ctoriginaltitle', element.title)];
+                    case 1:
+                        translationStatus = _a.sent();
+                        switch (translationStatus.Result) {
+                            case TranslationStatusResult.Succeeded:
+                                element.title = translationStatus.Text;
+                                return [2, translationStatus];
+                            case TranslationStatusResult.Failed:
+                                element.title = translationStatus.Text;
+                                translationStatus.Attribute = 'title';
+                                return [2, translationStatus];
+                            default:
+                                return [2, translationStatus];
+                        }
+                        return [2];
+                }
+            });
+        });
     };
     CloudTranslation.Translate = function (element, dataValueName, currentValue) {
-        var originalText;
-        if ($(element).data(dataValueName) !== undefined)
-            originalText = $(element).data(dataValueName);
-        if ((originalText === undefined || originalText.trim() === '') && (currentValue === null || currentValue.trim() === ''))
-            return new TranslationStatus(element, TranslationStatusResult.Ignored);
-        if (originalText === undefined || originalText.trim() === '')
-            originalText = currentValue;
-        var translatedText = CloudTranslation.GetTranslation(originalText);
-        if (translatedText === undefined) {
-            $(element).removeData(dataValueName);
-            return new TranslationStatus(element, TranslationStatusResult.Failed, originalText);
-        }
-        if (translatedText !== originalText)
-            $(element).data(dataValueName, originalText);
-        else
-            $(element).removeData(dataValueName);
-        return new TranslationStatus(element, TranslationStatusResult.Succeeded, translatedText);
+        return __awaiter(this, void 0, void 0, function () {
+            var originalText, translatedText;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if ($(element).data(dataValueName) !== undefined)
+                            originalText = $(element).data(dataValueName);
+                        if ((originalText === undefined || originalText.trim() === '') && (currentValue === null || currentValue.trim() === ''))
+                            return [2, new TranslationStatus(element, TranslationStatusResult.Ignored)];
+                        if (originalText === undefined || originalText.trim() === '')
+                            originalText = currentValue;
+                        return [4, CloudTranslation.GetTranslation(originalText)];
+                    case 1:
+                        translatedText = _a.sent();
+                        if (translatedText === undefined) {
+                            $(element).removeData(dataValueName);
+                            return [2, new TranslationStatus(element, TranslationStatusResult.Failed, originalText)];
+                        }
+                        if (translatedText !== originalText)
+                            $(element).data(dataValueName, originalText);
+                        else
+                            $(element).removeData(dataValueName);
+                        return [2, new TranslationStatus(element, TranslationStatusResult.Succeeded, translatedText)];
+                }
+            });
+        });
     };
     CloudTranslation.AddRTLCSS = function () {
         var style = document.createElement('style');
@@ -461,7 +562,7 @@ var CloudTranslation = (function () {
     };
     CloudTranslation.AzureAutoTranslate = function (texts) {
         return __awaiter(this, void 0, void 0, function () {
-            var bodyData, data, translatedTexts, jsonTranslations;
+            var bodyData, translatedTexts, data, jsonTranslations_1, e_3;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -470,6 +571,10 @@ var CloudTranslation = (function () {
                             return [2, []];
                         bodyData = '';
                         texts.forEach(function (text) { bodyData += '{"Text": "' + text + '"},'; });
+                        translatedTexts = [];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
                         return [4, $.ajax({
                                 url: 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=' + this.DefaultLanguage.Code + '&to=' + this.CurrentLanguage.Code,
                                 type: "POST",
@@ -481,18 +586,23 @@ var CloudTranslation = (function () {
                                     xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", _this.TranslatorProviderKey);
                                 },
                             })];
-                    case 1:
+                    case 2:
                         data = _a.sent();
-                        translatedTexts = [];
-                        jsonTranslations = '';
+                        jsonTranslations_1 = [];
                         $.each(data, function (index, translations) {
                             translatedTexts[index] = translations.translations[0].text;
                             if (_this.LogTranslationsFromProvider)
-                                jsonTranslations += '{"' + _this.DefaultLanguage.Code + '": "' + texts[index] + '", "' + _this.CurrentLanguage.Code + '": "' + translatedTexts[index] + '"},';
+                                jsonTranslations_1.push('{"o": "' + texts[index].trim() + '", "t": "' + translatedTexts[index].trim() + '"}');
                         });
                         if (this.LogTranslationsFromProvider)
-                            console.log(jsonTranslations);
-                        return [2, translatedTexts];
+                            console.log('[' + jsonTranslations_1.join(',') + ']');
+                        return [3, 4];
+                    case 3:
+                        e_3 = _a.sent();
+                        console.log(e_3.responseJSON.error.message);
+                        console.log(bodyData);
+                        return [3, 4];
+                    case 4: return [2, translatedTexts];
                 }
             });
         });
@@ -579,10 +689,9 @@ var CloudTranslation = (function () {
     };
     CloudTranslation.TranslateDOM = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var styleSheet, selection, translationStatuses, originalTexts_1, translatedTexts, e_1;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var styleSheet, selection, translationStatuses, _i, _a, e, results, e_4, originalTexts_1, translatedTexts, e_5, _b, translationStatuses_1, status_3, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         $('html').attr('lang', CloudTranslation.CurrentLanguage.Code);
                         $('html').attr('dir', CloudTranslation.Direction);
@@ -602,20 +711,30 @@ var CloudTranslation = (function () {
                             selection += ':not(' + '"' + element + '"' + ')';
                         });
                         translationStatuses = [];
-                        return [4, $(selection).toArray().forEach(function (e) { return __awaiter(_this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    try {
-                                        CloudTranslation.TranslateElement(e).forEach(function (status) {
-                                            translationStatuses.push(status);
-                                        });
-                                    }
-                                    catch (e) { }
-                                    return [2];
-                                });
-                            }); })];
+                        _i = 0, _a = $(selection).toArray();
+                        _d.label = 1;
                     case 1:
-                        _a.sent();
-                        if (!(this.CurrentLanguage.Code !== this.DefaultLanguage.Code)) return [3, 7];
+                        if (!(_i < _a.length)) return [3, 6];
+                        e = _a[_i];
+                        _d.label = 2;
+                    case 2:
+                        _d.trys.push([2, 4, , 5]);
+                        return [4, CloudTranslation.TranslateElement(e)];
+                    case 3:
+                        results = _d.sent();
+                        results.forEach(function (status) {
+                            translationStatuses.push(status);
+                        });
+                        return [3, 5];
+                    case 4:
+                        e_4 = _d.sent();
+                        return [3, 5];
+                    case 5:
+                        _i++;
+                        return [3, 1];
+                    case 6:
+                        ;
+                        if (!(this.CurrentLanguage.Code !== this.DefaultLanguage.Code)) return [3, 20];
                         originalTexts_1 = [];
                         translationStatuses.forEach(function (status) {
                             try {
@@ -630,75 +749,68 @@ var CloudTranslation = (function () {
                             catch (e) { }
                         });
                         originalTexts_1 = originalTexts_1.filter(this.OnlyUnique);
-                        if (!(this.TranslatorProvider.toLowerCase() === 'azure')) return [3, 5];
-                        _a.label = 2;
-                    case 2:
-                        _a.trys.push([2, 4, , 5]);
+                        if (!(this.TranslatorProvider.toLowerCase() === 'azure' && CloudTranslation.GetTranslations(CloudTranslation.CurrentLanguage.Code).Translation === null)) return [3, 10];
+                        _d.label = 7;
+                    case 7:
+                        _d.trys.push([7, 9, , 10]);
                         return [4, this.AzureAutoTranslate(originalTexts_1)];
-                    case 3:
-                        translatedTexts = _a.sent();
+                    case 8:
+                        translatedTexts = _d.sent();
                         $.each(translatedTexts, function (index, text) {
                             try {
-                                var translation = new Translation();
-                                translation.Default = new TranslationValue(CloudTranslation.DefaultLanguage.Code, originalTexts_1[index]);
-                                translation.Translations.push(new TranslationValue(CloudTranslation.CurrentLanguage.Code, text));
-                                CloudTranslation._translations.push(translation);
+                                CloudTranslation.AddTranslationValue(CloudTranslation.CurrentLanguage.Code, originalTexts_1[index], text);
                             }
                             catch (e) { }
                         });
-                        return [3, 5];
-                    case 4:
-                        e_1 = _a.sent();
-                        return [3, 5];
-                    case 5: return [4, translationStatuses.forEach(function (status) { return __awaiter(_this, void 0, void 0, function () {
-                            var _a, _b, _c, _d, _e;
-                            return __generator(this, function (_f) {
-                                switch (_f.label) {
-                                    case 0:
-                                        _a = status.Result;
-                                        switch (_a) {
-                                            case TranslationStatusResult.Failed: return [3, 1];
-                                        }
-                                        return [3, 6];
-                                    case 1:
-                                        if (!(status.Attribute === 'title')) return [3, 3];
-                                        _c = (_b = translationStatuses).push;
-                                        return [4, CloudTranslation.TranslateElementTitle(status.Element)];
-                                    case 2:
-                                        _c.apply(_b, [_f.sent()]);
-                                        return [3, 5];
-                                    case 3:
-                                        _e = (_d = translationStatuses).push;
-                                        return [4, CloudTranslation.TranslateElementText(status.Element)];
-                                    case 4:
-                                        _e.apply(_d, [_f.sent()]);
-                                        _f.label = 5;
-                                    case 5: return [3, 7];
-                                    case 6: return [3, 7];
-                                    case 7: return [2];
-                                }
-                            });
-                        }); })];
-                    case 6:
-                        _a.sent();
-                        _a.label = 7;
-                    case 7:
+                        return [3, 10];
+                    case 9:
+                        e_5 = _d.sent();
+                        return [3, 10];
+                    case 10:
+                        _b = 0, translationStatuses_1 = translationStatuses;
+                        _d.label = 11;
+                    case 11:
+                        if (!(_b < translationStatuses_1.length)) return [3, 19];
+                        status_3 = translationStatuses_1[_b];
+                        _c = status_3.Result;
+                        switch (_c) {
+                            case TranslationStatusResult.Failed: return [3, 12];
+                        }
+                        return [3, 17];
+                    case 12:
+                        if (!(status_3.Attribute === 'title')) return [3, 14];
+                        return [4, CloudTranslation.TranslateElementTitle(status_3.Element)];
+                    case 13:
+                        _d.sent();
+                        return [3, 16];
+                    case 14: return [4, CloudTranslation.TranslateElementText(status_3.Element)];
+                    case 15:
+                        _d.sent();
+                        _d.label = 16;
+                    case 16: return [3, 18];
+                    case 17: return [3, 18];
+                    case 18:
+                        _b++;
+                        return [3, 11];
+                    case 19:
+                        ;
+                        _d.label = 20;
+                    case 20:
                         this._currentLanguage = undefined;
-                        this._translations = undefined;
                         return [2];
                 }
             });
         });
     };
     CloudTranslation.FillInLanguages = function () {
-        var selection = $('.CloudTranslationSelection');
+        var selection = $('.cloudtranslation-selection');
         if (selection.length === 0)
             return;
         selection.attr('translate', 'no');
         selection.html('');
         var currentLanguage = this.CurrentLanguage.Code;
         CloudTranslation.Languages.forEach(function (language) {
-            $('.CloudTranslationSelection').append('<option value="' + language.Code + '"' + (language.Code === currentLanguage ? ' selected ' : '') + '>' + language.DisplayName + '</option>');
+            $('.cloudtranslation-selection').append('<option value="' + language.Code + '"' + (language.Code === currentLanguage ? ' selected ' : '') + '>' + language.DisplayName + '</option>');
         });
     };
     return CloudTranslation;
@@ -718,10 +830,21 @@ $(function () {
         });
     });
 });
-$(document).on('change', '.CloudTranslationSelection', function () {
-    var languageCode = $(this).val().toString();
-    if (languageCode !== '')
-        CloudTranslation.SetCurrentLanguage(languageCode);
-    CloudTranslation.TranslateDOM();
-    $('html, body, #Body, .Body').animate({ scrollTop: 0 }, 'fast');
+$(document).on('change', '.cloudtranslation-selection', function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var languageCode;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    languageCode = $(this).val().toString();
+                    if (languageCode !== '')
+                        CloudTranslation.SetCurrentLanguage(languageCode);
+                    return [4, CloudTranslation.TranslateDOM()];
+                case 1:
+                    _a.sent();
+                    $('html, body, #body, .body, #Body, .Body').animate({ scrollTop: 0 }, 'fast');
+                    return [2];
+            }
+        });
+    });
 });

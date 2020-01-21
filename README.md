@@ -11,18 +11,18 @@ jQuery 2.x or 3.x: [jQuery CDN](https://code.jquery.com/), [download jQuery](htt
 
 ## Cloud Translation Files
 ### Download
-Cloud Translation JavaScript files: [Uncompressed](https://cdn.amcapi.com/translation/cloudtranslation-1.0.0.js), [Compressed](https://cdn.amcapi.com/translation/cloudtranslation-1.0.0.min.js).
+Cloud Translation JavaScript files: [Uncompressed](https://cdn.amcapi.com/translation/1.1.0/cloudtranslation.js), [Compressed](https://cdn.amcapi.com/translation/1.1.0/cloudtranslation.min.js).
  
 ### CDN
 Cloud Translation JavaScript Compressed
 ```html
-<script src="https://cdn.amcapi.com/translation/cloudtranslation-1.0.0.min.js" crossorigin="anonymous"></script> 
+<script src="https://cdn.amcapi.com/translation/1.1.0/cloudtranslation.min.js" crossorigin="anonymous"></script> 
 ```
 
 ## Configuration
 JSON configuration file must be included within the website head as follows:
 ```html
-<script type="application/json" id="CloudTranslationConfig">
+<script type="application/json" id="cloudtranslation-config">
     {
         "Settings": {
             // Should be included within the Languages section
@@ -35,7 +35,7 @@ JSON configuration file must be included within the website head as follows:
             "TranslatorProvider": "Azure",
 
             // Please use your own key, Microsoft Azure provides a free tier.
-            "TranslatorProviderKey": "5900190c91074f94b1baea93fa1be549",
+            "TranslatorProviderKey": "{MicrosoftAzureTranslatorKey}",
 
             // To log automatically translated text within the console, this way you
             // could add them directly into the Translations section so the website
@@ -64,27 +64,37 @@ JSON configuration file must be included within the website head as follows:
                 "DisplayName": "العربية",
                 "Direction": "rtl"
             }
-        ],
-        "Translations": [
-            {
-                "en": "Welcome",
-                "ar": "اهلا وسهلا",
-                "fr": "Bienvenu"
-            },
-            {
-                "en": "Home",
-                "ar": "الصفحة الرئيسية"
-            }
         ]
     }
  <script>
 ```
 
+## Predefined Languages
+Add predefined languages as json files under 'translation' directory. each language code should have its own file named: languageCode.json.
+o: Original text.
+t: Translated text.
+ ```json
+[
+    {
+        "o": "Logo",
+        "t": "شعار"
+    },
+    {
+        "o": "Welcome",
+        "t": "اهلا وسهلا"
+    },
+    {
+        "o": "Home",
+        "t": "الصفحة الرئيسية"
+    }
+]
+ ```
+
  ## Languages Select (Optional)
- You can add an empty select into your website having the class "CloudTranslationSelect", which will be filled in with the predefined languages automatically.
+ You can add an empty select into your website having the class "cloudtranslation-selection", which will be filled in with the predefined languages automatically.
 
  ```html
-<select class="CloudTranslationSelect"></select> 
+<select class="cloudtranslation-selection"></select> 
  ```
 
  ## Prevent Text Translation

@@ -1,11 +1,10 @@
-declare class Translation {
+declare class Translations {
     constructor();
-    Default: TranslationValue;
-    Translations: TranslationValue[];
+    LanguageCode: string;
+    Translation: TranslationValue[];
 }
 declare class TranslationValue {
-    constructor(language: string, text: string);
-    Language: string;
+    Default: string;
     Text: string;
 }
 declare class Language {
@@ -28,11 +27,14 @@ declare class TranslationStatus {
 }
 declare class CloudTranslation {
     private static _languages;
-    private static _translations;
+    private static _translationsList;
     private static _defaultLanguage;
     private static _currentLanguage;
     private static _configurationData;
     private static _supportsTranslateAttribute;
+    private static readonly TranslationsList;
+    private static AddTranslationValue;
+    private static GetTranslations;
     private static readonly NonTranslatedElements;
     private static readonly StylePropertiesToSwitch;
     private static readonly StylePropertiesToOpposite;
@@ -47,7 +49,7 @@ declare class CloudTranslation {
     static readonly Languages: Language[];
     private static ParseLanguage;
     private static readonly Direction;
-    private static readonly Translations;
+    private static Translations;
     private static GetTranslation;
     private static TranslateElement;
     private static OnlyUnique;

@@ -3,26 +3,26 @@ class Translations {
 
     constructor() {
 
-        this.Translation = [];
+        this.translation = [];
     }
 
-    LanguageCode: string;
-    Translation: TranslationValue[];
+    languageCode: string;
+    translation: TranslationValue[];
 }
 
 class TranslationValue {
 
-    Default: string;
-    Text: string;
+    default: string;
+    text: string;
 }
 
 class Language {
 
-    Code: string;
-    DisplayName: string;
+    code: string;
+    displayName: string;
 
     private _direction: string;
-    get Direction(): string {
+    get direction(): string {
 
         if (this._direction === undefined)
             return 'ltr';
@@ -30,30 +30,30 @@ class Language {
         return this._direction;
     }
 
-    set Direction(value) {
+    set direction(value) {
         this._direction = value;
     }
 }
 
 enum TranslationStatusResult {
-    Ignored = 1,
-    Succeeded = 2,
-    Failed = 3
+    ignored = 1,
+    succeeded = 2,
+    failed = 3
 }
 
 class TranslationStatus {
 
     constructor(element: HTMLElement, result: TranslationStatusResult, text?: string) {
 
-        this.Element = element;
-        this.Result = result;
-        this.Text = text;
+        this.element = element;
+        this.result = result;
+        this.text = text;
     }
 
-    Element: HTMLElement;
-    Result: TranslationStatusResult;
-    Text: string;
-    Attribute: string;
+    element: HTMLElement;
+    result: TranslationStatusResult;
+    text: string;
+    attribute: string;
 }
 
 class CloudTranslation {
@@ -67,7 +67,7 @@ class CloudTranslation {
     private static _configurationData;
     private static _supportsTranslateAttribute;
 
-    private static get TranslationsList(): Translations[] {
+    private static get translationsList(): Translations[] {
 
         if (this._translationsList === undefined)
             this._translationsList = [];
@@ -75,28 +75,28 @@ class CloudTranslation {
         return this._translationsList;
     }
 
-    private static AddTranslationValue(languageCode: string, defaultText: string, translatedText: string): void {
+    private static addTranslationValue(languageCode: string, defaultText: string, translatedText: string): void {
 
-        let translations = this.GetTranslations(languageCode);
+        let translations = this.getTranslations(languageCode);
 
         if (translations === undefined) {
             translations = new Translations();
-            translations.LanguageCode = languageCode;
+            translations.languageCode = languageCode;
             this._translationsList.push(translations);
         }
 
         let translationValue = new TranslationValue();
-        translationValue.Default = defaultText;
-        translationValue.Text = translatedText;
+        translationValue.default = defaultText;
+        translationValue.text = translatedText;
 
-        translations.Translation.push(translationValue)
+        translations.translation.push(translationValue)
     }
 
-    private static GetTranslations(languageCode: string): Translations {
+    private static getTranslations(languageCode: string): Translations {
         let t: Translations;
 
-        this.TranslationsList.forEach((translations) => {
-            if (translations.LanguageCode === languageCode)
+        this.translationsList.forEach((translations) => {
+            if (translations.languageCode === languageCode)
                 t = translations;
         });
 
@@ -105,39 +105,39 @@ class CloudTranslation {
 
     // Private Properties
 
-    private static get NonTranslatedElements(): string[] {
+    private static get nonTranslatedElements(): string[] {
         return ['code', 'html', 'head', 'head > *'];
     }
 
-    private static get StylePropertiesToSwitch(): string[] {
+    private static get stylePropertiesToSwitch(): string[] {
         return ['padding-left', 'padding-right', 'margin-left', 'margin-right', 'border-left-width', 'border-right-width'];
     }
 
-    private static get StylePropertiesToOpposite(): string[] {
+    private static get stylePropertiesToOpposite(): string[] {
         return ['text-align', 'float', 'background-position-x'];
     }
 
-    private static get TranslatorProviderKey(): string {
-        return this.ConfigurationData.Settings.TranslatorProviderKey;
+    private static get translatorProviderKey(): string {
+        return this.configurationData.Settings.TranslatorProviderKey;
     }
 
-    private static get TranslatorProvider(): string {
-        return this.ConfigurationData.Settings.TranslatorProvider;
+    private static get translatorProvider(): string {
+        return this.configurationData.Settings.TranslatorProvider;
     }
 
-    private static get UrlLanguageLocation(): string {
-        return this.ConfigurationData.Settings.UrlLanguageLocation;
+    private static get urlLanguageLocation(): string {
+        return this.configurationData.Settings.UrlLanguageLocation;
     }
 
-    private static get LogTranslationsFromProvider(): boolean {
+    private static get logTranslationsFromProvider(): boolean {
 
-        if (this.ConfigurationData.Settings.LogTranslationsFromProvider === undefined)
+        if (this.configurationData.Settings.LogTranslationsFromProvider === undefined)
             return false;
 
-        return this.ConfigurationData.Settings.LogTranslationsFromProvider;
+        return this.configurationData.Settings.LogTranslationsFromProvider;
     }
 
-    private static get SupportsTranslateAttribute() {
+    private static get supportsTranslateAttribute() {
 
         if (this._supportsTranslateAttribute !== undefined)
             return this._supportsTranslateAttribute;
@@ -145,9 +145,9 @@ class CloudTranslation {
         return this._supportsTranslateAttribute = $('body')[0].translate !== undefined;
     }
 
-    private static DoTranslateElement(element: HTMLElement): boolean {
+    private static doTranslateElement(element: HTMLElement): boolean {
 
-        if (this.SupportsTranslateAttribute) {
+        if (this.supportsTranslateAttribute) {
             if (element.translate === false || ($(element).closest('*[translate]')[0] !== undefined && $(element).closest('*[translate]')[0].translate === false))
                 return false;
             else return true;
@@ -167,7 +167,7 @@ class CloudTranslation {
         return true;
     }
 
-    private static get ConfigurationData() {
+    private static get configurationData() {
 
         if (CloudTranslation._configurationData !== undefined)
             return CloudTranslation._configurationData;
@@ -179,33 +179,33 @@ class CloudTranslation {
 
     // Public Properties
 
-    static get DefaultLanguage(): Language {
+    static get defaultLanguage(): Language {
 
         if (this._defaultLanguage !== undefined)
             return this._defaultLanguage;
 
-        this.Languages.forEach((language) => {
-            if (language.Code.toLowerCase() === this.ConfigurationData.Settings.DefaultLanguage.toLowerCase())
+        this.languages.forEach((language) => {
+            if (language.code.toLowerCase() === this.configurationData.Settings.DefaultLanguage.toLowerCase())
                 this._defaultLanguage = language;
         });
 
         return this._defaultLanguage;
     }
 
-    static get Languages(): Language[] {
+    static get languages(): Language[] {
 
         if (CloudTranslation._languages !== undefined)
             return CloudTranslation._languages;
 
         CloudTranslation._languages = [];
 
-        $.each(CloudTranslation.ConfigurationData.Languages, (key, value) => {
+        $.each(CloudTranslation.configurationData.Languages, (key, value) => {
 
             let language: Language = new Language();
 
-            language.Code = value.Code;
-            language.DisplayName = value.DisplayName;
-            language.Direction = value.Direction;
+            language.code = value.Code;
+            language.displayName = value.DisplayName;
+            language.direction = value.Direction;
 
             CloudTranslation._languages.push(language);
         });
@@ -215,14 +215,14 @@ class CloudTranslation {
 
     // Private Methods
 
-    private static ParseLanguage(requestLanguage: string): Language {
+    private static parseLanguage(requestLanguage: string): Language {
 
         requestLanguage = requestLanguage.trim().toLowerCase();
 
         let result: Language;
 
-        this.Languages.forEach((language) => {
-            if (language.Code.toLowerCase() === requestLanguage)
+        this.languages.forEach((language) => {
+            if (language.code.toLowerCase() === requestLanguage)
                 result = language;
         });
 
@@ -230,40 +230,40 @@ class CloudTranslation {
             return result;
 
         if (requestLanguage.indexOf('-') !== - 1)
-            this.Languages.forEach((language) => {
+            this.languages.forEach((language) => {
 
-                if (language.Code.toLowerCase() === requestLanguage.split('-')[0])
+                if (language.code.toLowerCase() === requestLanguage.split('-')[0])
                     result = language;
             });
 
         if (result !== undefined)
             return result;
 
-        return this.DefaultLanguage;
+        return this.defaultLanguage;
     }
 
-    private static get Direction(): string {
+    private static get direction(): string {
 
-        return this.CurrentLanguage.Direction || 'ltr';
+        return this.currentLanguage.direction || 'ltr';
     }
 
-    private static async Translations(): Promise<Translations> {
+    private static async translations(): Promise<Translations> {
 
-        let translations = this.GetTranslations(CloudTranslation.CurrentLanguage.Code);
+        let translations = this.getTranslations(CloudTranslation.currentLanguage.code);
 
-        if (translations !== undefined && translations.Translation === null)
+        if (translations !== undefined && translations.translation === null)
             return undefined;
         else if (translations !== undefined)
             return translations;
 
-        let jsonPath = 'translation/' + this.CurrentLanguage.Code.toLowerCase() + '.json';
+        let jsonPath = 'translation/' + this.currentLanguage.code.toLowerCase() + '.json';
 
         const fetchResponse = await fetch(jsonPath);
 
         if (!fetchResponse.ok) {
             let nullTranslations = new Translations();
-            nullTranslations.LanguageCode = CloudTranslation.CurrentLanguage.Code;
-            nullTranslations.Translation = null;
+            nullTranslations.languageCode = CloudTranslation.currentLanguage.code;
+            nullTranslations.translation = null;
 
             this._translationsList.push(nullTranslations);
 
@@ -273,41 +273,41 @@ class CloudTranslation {
         const data = await fetchResponse.json();
 
         for (const value of data)
-            this.AddTranslationValue(CloudTranslation.CurrentLanguage.Code, value['o'], value['t']);
+            this.addTranslationValue(CloudTranslation.currentLanguage.code, value['o'], value['t']);
 
-        return this.GetTranslations(CloudTranslation.CurrentLanguage.Code);
+        return this.getTranslations(CloudTranslation.currentLanguage.code);
     };
 
-    private static async GetTranslation(text: string): Promise<string> {
+    private static async getTranslation(text: string): Promise<string> {
 
-        if (this.CurrentLanguage.Code === this.DefaultLanguage.Code)
+        if (this.currentLanguage.code === this.defaultLanguage.code)
             return text;
 
         var translation: TranslationValue = null;
 
-        const results = await CloudTranslation.Translations();
+        const results = await CloudTranslation.translations();
 
         if (results === undefined)
             return undefined;
 
-        results.Translation.forEach((t) => {
+        results.translation.forEach((t) => {
 
-            if (t.Default.trim() === text.trim())
+            if (t.default.trim() === text.trim())
                 translation = t;
         })
 
         if (translation === null)
             return undefined;
 
-        return translation.Text.replace(text.trim(), translation.Text);
+        return translation.text.replace(text.trim(), translation.text);
     }
 
-    private static async TranslateElement(element: HTMLElement): Promise<TranslationStatus[]> {
+    private static async translateElement(element: HTMLElement): Promise<TranslationStatus[]> {
 
         if (element === undefined)
             return [];
 
-        if (CloudTranslation.Direction === 'rtl') {
+        if (CloudTranslation.direction === 'rtl') {
             let style = element.style.cssText;
 
             if (style !== undefined) {
@@ -319,10 +319,10 @@ class CloudTranslation {
                 for (let i = 0; i < element.style.length; i++) {
                     let propertyName = element.style[i];
 
-                    if (CloudTranslation.StylePropertiesToOpposite.indexOf(propertyName) !== -1)
-                        rtlStyle += CloudTranslation.OppositeRTLCSSValues(element, propertyName);
-                    else if (CloudTranslation.StylePropertiesToSwitch.indexOf(propertyName) !== -1)
-                        rtlStyle += CloudTranslation.SwitchRTLCSSValues(element, propertyName);
+                    if (CloudTranslation.stylePropertiesToOpposite.indexOf(propertyName) !== -1)
+                        rtlStyle += CloudTranslation.oppositeRTLCSSValues(element, propertyName);
+                    else if (CloudTranslation.stylePropertiesToSwitch.indexOf(propertyName) !== -1)
+                        rtlStyle += CloudTranslation.switchRTLCSSValues(element, propertyName);
                     else rtlStyle += propertyName + ': ' + element.style[propertyName] + '; ';
                 }
 
@@ -343,7 +343,7 @@ class CloudTranslation {
 
         // Ignore attribute: translate="no"
 
-        if (!this.DoTranslateElement(element))
+        if (!this.doTranslateElement(element))
             return [];
 
         // Ignore links with mailto: and tel:
@@ -367,69 +367,49 @@ class CloudTranslation {
         let translationStatuses: TranslationStatus[] = [];
 
         try {
-            let status = await CloudTranslation.TranslateElementText(element);
+            let status = await CloudTranslation.translateElementText(element);
             translationStatuses.push(status);
         } catch (e) { }
 
         try {
-            let status = await CloudTranslation.TranslateElementTitle(element);
+            let status = await CloudTranslation.translateElementTitle(element);
             translationStatuses.push(status);
         } catch (e) { }
 
         return translationStatuses;
     }
 
-    private static OnlyUnique(value, index, self) {
+    private static onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
     }
 
-    private static async TranslateElementText(element: HTMLElement): Promise<TranslationStatus> {
+    private static async translateElementText(element: HTMLElement): Promise<TranslationStatus> {
 
         if (element.tagName.toLowerCase() == 'script')
-        return new TranslationStatus(element, TranslationStatusResult.Ignored);
+        return new TranslationStatus(element, TranslationStatusResult.ignored);
         
         let childNode = element.childNodes[0];
 
         if (childNode === undefined)
-            return new TranslationStatus(element, TranslationStatusResult.Ignored);
+            return new TranslationStatus(element, TranslationStatusResult.ignored);
 
         if (childNode.nodeValue === null)
-            return new TranslationStatus(element, TranslationStatusResult.Ignored);
+            return new TranslationStatus(element, TranslationStatusResult.ignored);
 
         if (childNode.nodeValue.trim() === '')
-            return new TranslationStatus(element, TranslationStatusResult.Ignored);
+            return new TranslationStatus(element, TranslationStatusResult.ignored);
 
-        let translationStatus = await CloudTranslation.Translate(element, '_ctoriginaltext', childNode.nodeValue);
+        let translationStatus = await CloudTranslation.translate(element, '_ctoriginaltext', childNode.nodeValue);
 
-        switch (translationStatus.Result) {
+        switch (translationStatus.result) {
 
-            case TranslationStatusResult.Succeeded:
-                childNode.nodeValue = translationStatus.Text;
+            case TranslationStatusResult.succeeded:
+                childNode.nodeValue = translationStatus.text;
                 return translationStatus;
 
-            case TranslationStatusResult.Failed:
-                childNode.nodeValue = translationStatus.Text;
-                translationStatus.Attribute = 'text';
-                return translationStatus;
-
-            default:
-                return translationStatus;
-        }
-    }
-
-    private static async TranslateElementTitle(element: HTMLElement): Promise<TranslationStatus> {
-
-        let translationStatus = await CloudTranslation.Translate(element, '_ctoriginaltitle', element.title);
-
-        switch (translationStatus.Result) {
-
-            case TranslationStatusResult.Succeeded:
-                element.title = translationStatus.Text;
-                return translationStatus;
-
-            case TranslationStatusResult.Failed:
-                element.title = translationStatus.Text;
-                translationStatus.Attribute = 'title';
+            case TranslationStatusResult.failed:
+                childNode.nodeValue = translationStatus.text;
+                translationStatus.attribute = 'text';
                 return translationStatus;
 
             default:
@@ -437,7 +417,27 @@ class CloudTranslation {
         }
     }
 
-    private static async Translate(element: HTMLElement, dataValueName: string, currentValue: string): Promise<TranslationStatus> {
+    private static async translateElementTitle(element: HTMLElement): Promise<TranslationStatus> {
+
+        let translationStatus = await CloudTranslation.translate(element, '_ctoriginaltitle', element.title);
+
+        switch (translationStatus.result) {
+
+            case TranslationStatusResult.succeeded:
+                element.title = translationStatus.text;
+                return translationStatus;
+
+            case TranslationStatusResult.failed:
+                element.title = translationStatus.text;
+                translationStatus.attribute = 'title';
+                return translationStatus;
+
+            default:
+                return translationStatus;
+        }
+    }
+
+    private static async translate(element: HTMLElement, dataValueName: string, currentValue: string): Promise<TranslationStatus> {
 
         let originalText: string;
 
@@ -445,18 +445,18 @@ class CloudTranslation {
             originalText = $(element).data(dataValueName);
 
         if ((originalText === undefined || originalText.trim() === '') && (currentValue === null || currentValue.trim() === ''))
-            return new TranslationStatus(element, TranslationStatusResult.Ignored);
+            return new TranslationStatus(element, TranslationStatusResult.ignored);
 
         if (originalText === undefined || originalText.trim() === '')
             originalText = currentValue;
 
-        let translatedText = await CloudTranslation.GetTranslation(originalText);
+        let translatedText = await CloudTranslation.getTranslation(originalText);
 
         if (translatedText === undefined) {
 
             $(element).removeData(dataValueName);
 
-            return new TranslationStatus(element, TranslationStatusResult.Failed, originalText);
+            return new TranslationStatus(element, TranslationStatusResult.failed, originalText);
         }
 
         if (translatedText !== originalText)
@@ -464,31 +464,31 @@ class CloudTranslation {
         else
             $(element).removeData(dataValueName);
 
-        return new TranslationStatus(element, TranslationStatusResult.Succeeded, translatedText);
+        return new TranslationStatus(element, TranslationStatusResult.succeeded, translatedText);
     }
 
-    private static AddRTLCSS(): void {
+    private static addRTLCSS(): void {
         var style = document.createElement('style');
         style.type = 'text/css';
-        style.innerHTML = CloudTranslation.GenerateRTLCSS();
+        style.innerHTML = CloudTranslation.generateRTLCSS();
         document.getElementsByTagName('head')[0].appendChild(style);
     }
 
-    private static GenerateRTLCSS(): string {
+    private static generateRTLCSS(): string {
 
         let style = 'html[dir="rtl"] {direction: rtl;}';
 
         $.each(document.styleSheets, function (index, sheet) {
 
             try {
-                style += CloudTranslation.GetRulesStyle(sheet['cssRules'] || sheet['rules']);
+                style += CloudTranslation.getRulesStyle(sheet['cssRules'] || sheet['rules']);
             } catch (e) { }
         });
 
         return style;
     }
 
-    private static GetRulesStyle(rules): string {
+    private static getRulesStyle(rules): string {
 
         let result = '';
 
@@ -498,7 +498,7 @@ class CloudTranslation {
                 let mediaStyle;
 
                 try {
-                    mediaStyle = CloudTranslation.GetRulesStyle(rule['cssRules'] || rule['rules']);
+                    mediaStyle = CloudTranslation.getRulesStyle(rule['cssRules'] || rule['rules']);
                 } catch (e) { return; }
 
                 if (mediaStyle !== '') {
@@ -513,12 +513,12 @@ class CloudTranslation {
 
             let selectorStyle = '';
 
-            CloudTranslation.StylePropertiesToOpposite.forEach((property) => {
-                selectorStyle += CloudTranslation.OppositeRTLCSSValues(rule, property);
+            CloudTranslation.stylePropertiesToOpposite.forEach((property) => {
+                selectorStyle += CloudTranslation.oppositeRTLCSSValues(rule, property);
             });
 
-            CloudTranslation.StylePropertiesToSwitch.forEach((property) => {
-                selectorStyle += CloudTranslation.SwitchRTLCSSValues(rule, property);
+            CloudTranslation.stylePropertiesToSwitch.forEach((property) => {
+                selectorStyle += CloudTranslation.switchRTLCSSValues(rule, property);
             });
 
             // Insert Class
@@ -531,7 +531,7 @@ class CloudTranslation {
         return result;
     }
 
-    private static SwitchRTLCSSValues(rule, name: string): string {
+    private static switchRTLCSSValues(rule, name: string): string {
 
         let value = rule.style[name];
 
@@ -549,7 +549,7 @@ class CloudTranslation {
         return style;
     }
 
-    private static OppositeRTLCSSValues(rule, name: string): string {
+    private static oppositeRTLCSSValues(rule, name: string): string {
 
         let value: string = rule.style[name];
 
@@ -562,7 +562,7 @@ class CloudTranslation {
             style += name + ': right;'
         else if (value === 'right')
             style += name + ': left;'
-        else if (CloudTranslation.CanBeNegative(value)) {
+        else if (CloudTranslation.canBeNegative(value)) {
 
             if (value.indexOf('-') === 0)
                 style += name + ': ' + value.substr(1) + ';'
@@ -573,7 +573,7 @@ class CloudTranslation {
         return style;
     }
 
-    private static CanBeNegative(value: string): boolean {
+    private static canBeNegative(value: string): boolean {
         let unites: string[] = ['px', 'pt', 'pc', 'cm', 'mm', 'in', 'em', 'rem', 'vw', 'vh', 'ex', 'ch', 'vmin', 'vmax', '%'];
 
         let isTrue = false;
@@ -586,7 +586,7 @@ class CloudTranslation {
         return isTrue;
     }
 
-    private static async AzureAutoTranslate(texts: string[]): Promise<string[]> {
+    private static async azureAutoTranslate(texts: string[]): Promise<string[]> {
 
         if (texts.length === 0)
             return [];
@@ -599,7 +599,7 @@ class CloudTranslation {
 
         try {
             let data = await $.ajax({
-                url: 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=' + this.DefaultLanguage.Code + '&to=' + this.CurrentLanguage.Code,
+                url: 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=' + this.defaultLanguage.code + '&to=' + this.currentLanguage.code,
                 type: "POST",
                 dataType: 'json',
                 data: '[' + bodyData + ']',
@@ -607,7 +607,7 @@ class CloudTranslation {
 
                 beforeSend: (xhrObj) => {
                     xhrObj.setRequestHeader("Content-Type", "application/json");
-                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", this.TranslatorProviderKey);
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", this.translatorProviderKey);
                 },
             });
 
@@ -617,12 +617,12 @@ class CloudTranslation {
             $.each(data, (index, translations) => {
                 translatedTexts[index] = translations.translations[0].text;
 
-                if (this.LogTranslationsFromProvider)
+                if (this.logTranslationsFromProvider)
                     jsonTranslations.push('{"o": "' + texts[index].trim() + '", "t": "' + translatedTexts[index].trim() + '"}');
             });
 
 
-            if (this.LogTranslationsFromProvider)
+            if (this.logTranslationsFromProvider)
                 console.log('[' + jsonTranslations.join(',') + ']');
 
         } catch (e) {
@@ -635,7 +635,7 @@ class CloudTranslation {
 
     // Public Methods
 
-    static UpdateCurrentLanguage(): void {
+    static updateCurrentLanguage(): void {
         let localStorageLanguage: Language;
         let urlLanguage: Language;
         let browserLanguage: Language;
@@ -651,37 +651,37 @@ class CloudTranslation {
         }
 
         if (result !== null)
-            localStorageLanguage = this.ParseLanguage(result);
+            localStorageLanguage = this.parseLanguage(result);
 
         // URL
 
-        if (this.UrlLanguageLocation !== undefined) {
+        if (this.urlLanguageLocation !== undefined) {
 
             let urlValue: string;
 
-            if (this.UrlLanguageLocation === 'Subdirectory')
+            if (this.urlLanguageLocation === 'Subdirectory')
                 urlValue = window.location.pathname.split('/')[1];
 
             if (urlValue !== undefined)
                 if (urlValue.length === 2 || (urlValue.length === 5 && urlValue.indexOf('-') === 2)) {
 
-                    this.Languages.forEach((language) => {
-                        if (language.Code.toLowerCase() === urlValue.toLowerCase())
-                            result = language.Code;
+                    this.languages.forEach((language) => {
+                        if (language.code.toLowerCase() === urlValue.toLowerCase())
+                            result = language.code;
                     });
 
                     if (urlValue.indexOf('-') !== -1 && result === undefined) {
 
                         urlValue = urlValue.split('-')[0];
 
-                        this.Languages.forEach((language) => {
-                            if (language.Code.toLowerCase() === urlValue.toLowerCase())
-                                result = language.Code;
+                        this.languages.forEach((language) => {
+                            if (language.code.toLowerCase() === urlValue.toLowerCase())
+                                result = language.code;
                         });
                     }
 
                     if (result !== undefined)
-                        urlLanguage = this.ParseLanguage(result);
+                        urlLanguage = this.parseLanguage(result);
                 }
         }
 
@@ -690,64 +690,64 @@ class CloudTranslation {
         result = navigator['language'] || navigator['userLanguage'];
 
         if (result !== undefined)
-            browserLanguage = this.ParseLanguage(result);
+            browserLanguage = this.parseLanguage(result);
 
         // Consolidation
 
         if (urlLanguage !== undefined)
-            this.SetCurrentLanguage(urlLanguage.Code);
+            this.setCurrentLanguage(urlLanguage.code);
 
         else if (localStorageLanguage !== undefined)
-            this.SetCurrentLanguage(localStorageLanguage.Code);
+            this.setCurrentLanguage(localStorageLanguage.code);
 
         else if (browserLanguage !== undefined)
-            this.SetCurrentLanguage(browserLanguage.Code);
+            this.setCurrentLanguage(browserLanguage.code);
 
-        else this.SetCurrentLanguage(this.DefaultLanguage.Code);
+        else this.setCurrentLanguage(this.defaultLanguage.code);
     }
 
-    static get CurrentLanguage(): Language {
+    static get currentLanguage(): Language {
 
         if (this._currentLanguage !== undefined)
             return this._currentLanguage;
 
-        this.UpdateCurrentLanguage();
+        this.updateCurrentLanguage();
         return this._currentLanguage;
     }
 
-    private static UpdateUrlLanguage(): void {
+    private static updateUrlLanguage(): void {
 
-        if (this.UrlLanguageLocation === undefined)
+        if (this.urlLanguageLocation === undefined)
             return;
 
-        if (this.UrlLanguageLocation === 'Subdirectory') {
+        if (this.urlLanguageLocation === 'Subdirectory') {
             let pathnameSplitted = window.location.pathname.split('/');
 
             let currentLanguageCode = pathnameSplitted[1];
 
             if (currentLanguageCode.length === 2 || (currentLanguageCode.length === 5 && currentLanguageCode.indexOf('-') === 2))
-                pathnameSplitted[1] = this.CurrentLanguage.Code;
-            else pathnameSplitted.splice(1, 0, this.CurrentLanguage.Code);
+                pathnameSplitted[1] = this.currentLanguage.code;
+            else pathnameSplitted.splice(1, 0, this.currentLanguage.code);
 
             history.replaceState(null, null, pathnameSplitted.join('/'));
         }
     }
 
-    static SetCurrentLanguage(languageCode: string): void {
-        this._currentLanguage = this.ParseLanguage(languageCode);
+    static setCurrentLanguage(languageCode: string): void {
+        this._currentLanguage = this.parseLanguage(languageCode);
 
         try {
-            localStorage.setItem('lang', this._currentLanguage.Code);
+            localStorage.setItem('lang', this._currentLanguage.code);
         } catch{
             console.log('localStorage is not supported.');
         }
-        this.UpdateUrlLanguage();
+        this.updateUrlLanguage();
     }
 
-    static async TranslateDOM(): Promise<void> {
+    static async translateDOM(): Promise<void> {
 
-        $('html').attr('lang', CloudTranslation.CurrentLanguage.Code);
-        $('html').attr('dir', CloudTranslation.Direction);
+        $('html').attr('lang', CloudTranslation.currentLanguage.code);
+        $('html').attr('dir', CloudTranslation.direction);
 
         let styleSheet: StyleSheet;
 
@@ -761,11 +761,11 @@ class CloudTranslation {
             } catch (e) { }
         });
 
-        if (CloudTranslation.Direction === 'rtl' && styleSheet === undefined)
-            CloudTranslation.AddRTLCSS();
+        if (CloudTranslation.direction === 'rtl' && styleSheet === undefined)
+            CloudTranslation.addRTLCSS();
 
         var selection = '*';
-        CloudTranslation.NonTranslatedElements.forEach((element) => {
+        CloudTranslation.nonTranslatedElements.forEach((element) => {
             selection += ':not(' + '"' + element + '"' + ')'
         });
 
@@ -774,7 +774,7 @@ class CloudTranslation {
         for (const e of $(selection).toArray()) {
             try {
 
-                const results = await CloudTranslation.TranslateElement(e);
+                const results = await CloudTranslation.translateElement(e);
 
                 results.forEach((status) => {
                     translationStatuses.push(status);
@@ -782,18 +782,18 @@ class CloudTranslation {
             } catch (e) { }
         };
 
-        if (this.CurrentLanguage.Code !== this.DefaultLanguage.Code) {
+        if (this.currentLanguage.code !== this.defaultLanguage.code) {
 
             let originalTexts: string[] = [];
 
             translationStatuses.forEach((status) => {
 
                 try {
-                    switch (status.Result) {
+                    switch (status.result) {
 
-                        case TranslationStatusResult.Failed:
+                        case TranslationStatusResult.failed:
 
-                            originalTexts.push(status.Text.replace(/"/g, '\\"'))
+                            originalTexts.push(status.text.replace(/"/g, '\\"'))
                             break;
 
                         default:
@@ -802,16 +802,16 @@ class CloudTranslation {
                 } catch (e) { }
             });
 
-            originalTexts = originalTexts.filter(this.OnlyUnique);
+            originalTexts = originalTexts.filter(this.onlyUnique);
 
-            if (this.TranslatorProvider.toLowerCase() === 'azure' && CloudTranslation.GetTranslations(CloudTranslation.CurrentLanguage.Code).Translation === null) {
+            if (this.translatorProvider.toLowerCase() === 'azure' && CloudTranslation.getTranslations(CloudTranslation.currentLanguage.code).translation === null) {
                 try {
-                    let translatedTexts = await this.AzureAutoTranslate(originalTexts);
+                    let translatedTexts = await this.azureAutoTranslate(originalTexts);
 
                     $.each(translatedTexts, (index, text) => {
 
                         try {
-                            CloudTranslation.AddTranslationValue(CloudTranslation.CurrentLanguage.Code, originalTexts[index], text);
+                            CloudTranslation.addTranslationValue(CloudTranslation.currentLanguage.code, originalTexts[index], text);
                         } catch (e) { }
                     });
                 } catch (e) { }
@@ -819,14 +819,14 @@ class CloudTranslation {
 
             for (const status of translationStatuses) {
 
-                switch (status.Result) {
+                switch (status.result) {
 
-                    case TranslationStatusResult.Failed:
+                    case TranslationStatusResult.failed:
 
-                        if (status.Attribute === 'title')
-                            await CloudTranslation.TranslateElementTitle(status.Element);
+                        if (status.attribute === 'title')
+                            await CloudTranslation.translateElementTitle(status.element);
                         else
-                            await CloudTranslation.TranslateElementText(status.Element);
+                            await CloudTranslation.translateElementText(status.element);
                         break;
 
                     default:
@@ -839,7 +839,7 @@ class CloudTranslation {
         this._currentLanguage = undefined;
     }
 
-    static FillInLanguages(): void {
+    static fillInLanguages(): void {
 
         let selection = $('.cloudtranslation-selection');
 
@@ -850,10 +850,10 @@ class CloudTranslation {
 
         selection.html('');
 
-        let currentLanguage: string = this.CurrentLanguage.Code;
+        let currentLanguage: string = this.currentLanguage.code;
 
-        CloudTranslation.Languages.forEach((language) => {
-            $('.cloudtranslation-selection').append('<option value="' + language.Code + '"' + (language.Code === currentLanguage ? ' selected ' : '') + '>' + language.DisplayName + '</option>')
+        CloudTranslation.languages.forEach((language) => {
+            $('.cloudtranslation-selection').append('<option value="' + language.code + '"' + (language.code === currentLanguage ? ' selected ' : '') + '>' + language.displayName + '</option>')
         });
     }
 
@@ -861,10 +861,10 @@ class CloudTranslation {
 
 $(async function () {
 
-    CloudTranslation.UpdateCurrentLanguage();
-    CloudTranslation.FillInLanguages();
+    CloudTranslation.updateCurrentLanguage();
+    CloudTranslation.fillInLanguages();
 
-    await CloudTranslation.TranslateDOM();
+    await CloudTranslation.translateDOM();
 });
 
 $(document).on('change', '.cloudtranslation-selection', async function () {
@@ -872,9 +872,9 @@ $(document).on('change', '.cloudtranslation-selection', async function () {
     let languageCode = $(this).val().toString();
 
     if (languageCode !== '')
-        CloudTranslation.SetCurrentLanguage(languageCode);
+        CloudTranslation.setCurrentLanguage(languageCode);
 
-    await CloudTranslation.TranslateDOM();
+    await CloudTranslation.translateDOM();
 
     $('html, body, #body, .body, #Body, .Body').animate({ scrollTop: 0 }, 'fast');
 });

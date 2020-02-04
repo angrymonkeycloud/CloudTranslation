@@ -848,4 +848,3 @@ $(document).on('change', '.cloudtranslation-selection', function () {
         });
     });
 });
-//# sourceMappingURL=cloudtranslation.js.map

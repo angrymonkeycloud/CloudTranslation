@@ -859,13 +859,10 @@ class CloudTranslation {
 
 }
 
-$(async function () {
+CloudTranslation.updateCurrentLanguage();
+CloudTranslation.fillInLanguages();
 
-    CloudTranslation.updateCurrentLanguage();
-    CloudTranslation.fillInLanguages();
-
-    await CloudTranslation.translateDOM();
-});
+CloudTranslation.translateDOM();
 
 $(document).on('change', '.cloudtranslation-selection', async function () {
 

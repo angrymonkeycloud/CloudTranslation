@@ -5,13 +5,14 @@ var ts = require('gulp-typescript');
 var tsProject = ts.createProject('tsconfig.json');
 
 //------------------------------
-// VERSIONING
+// Semantic Versioning
 
-// Major: major updates.
-// Minor: minor updates which affects previous version.
-// Patch: minor updates or bug fixing which doesn't affect previous version.
+// 1. Major: Changes that break backward compatibility | Increment the first digit and reset middle and last digits to zero.
+// 2. Minor: Backward compatible new features | Increment the middle digit and reset last digit to zero.
+// 3. Patch: Backward compatible bug fixes | Increment the third digit.
+// more info at: https://semver.org/
 
-var version = '1.2.0';
+var version = '1.2.1';
 
 //------------------------------;
 

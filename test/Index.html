@@ -6,44 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cloud Translation Test Page</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-    <script type="application/json" id="cloudtranslation-config">
-        {
-            "Settings": {
-                "DefaultLanguage": "en",
-                "LogTranslationsFromProvider": true,
-                "TranslatorProvider": "",
-                "TranslatorProviderKey": "",
-                "UrlLanguageLocation": ""
-            },
-            "Languages": [{
-                "Code": "en",
-                "DisplayName": "English"
-            }, {
-                "Code": "es",
-                "DisplayName": "Spanish"
-            }, {
-                "Code": "fr",
-                "DisplayName": "Français"
-            }, {
-                "Code": "fr-ca",
-                "DisplayName": "Français (Canada)"
-            }, {
-                "Code": "ar",
-                "DisplayName": "العربية",
-                "Direction": "rtl"
-            }]
-        }
-    </script>
+    <link href="css/style.css" rel="stylesheet" />
 </head>
 
 <body>
 
-    <div class="CloudTranslationSelectionContainer">
-        <select class="cloudtranslation-selection"></select>
-    </div>
-
-    <div class="TestStyle" translate="no" style="border: 0 solid #000000; border-right-width: 2px; border-left-width: 10px; padding-left: 15px;">
+    <div class="testStyle" translate="no" style="border: 10px solid #00a7ce; border-top-width: 0; border-bottom-width: 0; padding-left: 15px;">
         Don't Translate This
         <div translate="yes">
             Translate This
@@ -62,9 +32,11 @@
         </div>
     </div>
 
-    <img title="Logo" src="../images/CloudLogo-64x64.png" />
+    <img class="logo" title="Logo" src="../img/CloudLogo-64x64.png" />
 
-    <div class="DesignBox"></div>
+    <div class="designBox">
+        <div></div>
+    </div>
 
     <h2>Text for Auto Translation</h2>
     <div>I'm so hungry.</div>
@@ -88,8 +60,33 @@
     <div>email@domainname.com</div>
     <a href="mailto:email@domainname.com">email@domainname.com</a>
 
+    <div class="cloudtranslation-selectioncontainer">
+        <select class="cloudtranslation-selection"></select>
+    </div>
+
     <script src="http://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="../src/cloudtranslation.js"></script>
+    <script>
+        cloudTranslation({
+            languages: [{
+                code: 'en',
+                displayName: 'English'
+            }, {
+                code: 'es',
+                displayName: 'Spanish'
+            }, {
+                code: 'fr',
+                displayName: 'Français'
+            }, {
+                code: 'fr-ca',
+                displayName: 'Français (Canada)'
+            }, {
+                code: 'ar',
+                displayName: 'العربية',
+                direction: LanguageDirection.rtl
+            }]
+        });
+    </script>
 </body>
 
 </html>

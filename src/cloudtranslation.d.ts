@@ -10,14 +10,7 @@ declare class TranslationValue {
 declare class Language {
     code: string;
     displayName: string;
-    private _direction;
-    get direction(): string;
-    set direction(value: string);
-}
-declare enum TranslationStatusResult {
-    ignored = 1,
-    succeeded = 2,
-    failed = 3
+    direction?: LanguageDirection;
 }
 declare class TranslationStatus {
     constructor(element: HTMLElement, result: TranslationStatusResult, text?: string);
@@ -26,13 +19,39 @@ declare class TranslationStatus {
     text: string;
     attribute: string;
 }
+declare enum LanguageDirection {
+    ltr = 0,
+    rtl = 1
+}
+declare enum TranslationStatusResult {
+    ignored = 1,
+    succeeded = 2,
+    failed = 3
+}
+declare enum TranslatorProvider {
+    none = 0,
+    Azure = 1
+}
+declare enum UrlLanguageLocation {
+    none = 0,
+    subdirectory = 1
+}
+interface CloudTranslationSettings {
+    defaultLanguage?: string;
+    logTranslationsFromProvider?: boolean;
+    translatorProvider?: TranslatorProvider;
+    translatorProviderKey?: string;
+    urlLanguageLocation?: UrlLanguageLocation;
+    languages: Language[];
+}
 declare class CloudTranslation {
-    private static _languages;
+    constructor(settings: CloudTranslationSettings);
+    private mergeSettings;
     private static _translationsList;
     private static _defaultLanguage;
     private static _currentLanguage;
-    private static _configurationData;
     private static _supportsTranslateAttribute;
+    private static _settings;
     private static get translationsList();
     private static addTranslationValue;
     private static getTranslations;
@@ -45,7 +64,6 @@ declare class CloudTranslation {
     private static get logTranslationsFromProvider();
     private static get supportsTranslateAttribute();
     private static doTranslateElement;
-    private static get configurationData();
     static get defaultLanguage(): Language;
     static get languages(): Language[];
     private static parseLanguage;
@@ -71,3 +89,4 @@ declare class CloudTranslation {
     static translateDOM(): Promise<void>;
     static fillInLanguages(): void;
 }
+declare const cloudTranslation: (settings?: CloudTranslationSettings) => CloudTranslation;

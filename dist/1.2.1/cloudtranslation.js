@@ -47,26 +47,8 @@ var TranslationValue = (function () {
 var Language = (function () {
     function Language() {
     }
-    Object.defineProperty(Language.prototype, "direction", {
-        get: function () {
-            if (this._direction === undefined)
-                return 'ltr';
-            return this._direction;
-        },
-        set: function (value) {
-            this._direction = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return Language;
 }());
-var TranslationStatusResult;
-(function (TranslationStatusResult) {
-    TranslationStatusResult[TranslationStatusResult["ignored"] = 1] = "ignored";
-    TranslationStatusResult[TranslationStatusResult["succeeded"] = 2] = "succeeded";
-    TranslationStatusResult[TranslationStatusResult["failed"] = 3] = "failed";
-})(TranslationStatusResult || (TranslationStatusResult = {}));
 var TranslationStatus = (function () {
     function TranslationStatus(element, result, text) {
         this.element = element;
@@ -75,9 +57,47 @@ var TranslationStatus = (function () {
     }
     return TranslationStatus;
 }());
+var LanguageDirection;
+(function (LanguageDirection) {
+    LanguageDirection[LanguageDirection["ltr"] = 0] = "ltr";
+    LanguageDirection[LanguageDirection["rtl"] = 1] = "rtl";
+})(LanguageDirection || (LanguageDirection = {}));
+var TranslationStatusResult;
+(function (TranslationStatusResult) {
+    TranslationStatusResult[TranslationStatusResult["ignored"] = 1] = "ignored";
+    TranslationStatusResult[TranslationStatusResult["succeeded"] = 2] = "succeeded";
+    TranslationStatusResult[TranslationStatusResult["failed"] = 3] = "failed";
+})(TranslationStatusResult || (TranslationStatusResult = {}));
+var TranslatorProvider;
+(function (TranslatorProvider) {
+    TranslatorProvider[TranslatorProvider["none"] = 0] = "none";
+    TranslatorProvider[TranslatorProvider["Azure"] = 1] = "Azure";
+})(TranslatorProvider || (TranslatorProvider = {}));
+var UrlLanguageLocation;
+(function (UrlLanguageLocation) {
+    UrlLanguageLocation[UrlLanguageLocation["none"] = 0] = "none";
+    UrlLanguageLocation[UrlLanguageLocation["subdirectory"] = 1] = "subdirectory";
+})(UrlLanguageLocation || (UrlLanguageLocation = {}));
 var CloudTranslation = (function () {
-    function CloudTranslation() {
+    function CloudTranslation(settings) {
+        CloudTranslation._settings = this.mergeSettings(settings);
+        CloudTranslation.updateCurrentLanguage();
+        CloudTranslation.fillInLanguages();
+        CloudTranslation.translateDOM();
     }
+    CloudTranslation.prototype.mergeSettings = function (_settings) {
+        var settings = {
+            defaultLanguage: 'en',
+            logTranslationsFromProvider: false,
+            translatorProvider: TranslatorProvider.none,
+            translatorProviderKey: '',
+            urlLanguageLocation: UrlLanguageLocation.none,
+            languages: []
+        };
+        for (var attrname in _settings)
+            settings[attrname] = _settings[attrname];
+        return settings;
+    };
     Object.defineProperty(CloudTranslation, "translationsList", {
         get: function () {
             if (this._translationsList === undefined)
@@ -116,7 +136,13 @@ var CloudTranslation = (function () {
     });
     Object.defineProperty(CloudTranslation, "stylePropertiesToSwitch", {
         get: function () {
-            return ['padding-left', 'padding-right', 'margin-left', 'margin-right', 'border-left-width', 'border-right-width'];
+            var properties = ['padding', 'margin'];
+            var results = [];
+            properties.forEach(function (property) {
+                results.push(property + '-left');
+                results.push(property + '-right');
+            });
+            return results;
         },
         enumerable: true,
         configurable: true
@@ -130,30 +156,28 @@ var CloudTranslation = (function () {
     });
     Object.defineProperty(CloudTranslation, "translatorProviderKey", {
         get: function () {
-            return this.configurationData.Settings.TranslatorProviderKey;
+            return this._settings.translatorProviderKey;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CloudTranslation, "translatorProvider", {
         get: function () {
-            return this.configurationData.Settings.TranslatorProvider;
+            return this._settings.translatorProvider;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CloudTranslation, "urlLanguageLocation", {
         get: function () {
-            return this.configurationData.Settings.UrlLanguageLocation;
+            return this._settings.urlLanguageLocation;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CloudTranslation, "logTranslationsFromProvider", {
         get: function () {
-            if (this.configurationData.Settings.LogTranslationsFromProvider === undefined)
-                return false;
-            return this.configurationData.Settings.LogTranslationsFromProvider;
+            return this._settings.logTranslationsFromProvider;
         },
         enumerable: true,
         configurable: true
@@ -185,24 +209,13 @@ var CloudTranslation = (function () {
             return false;
         return true;
     };
-    Object.defineProperty(CloudTranslation, "configurationData", {
-        get: function () {
-            if (CloudTranslation._configurationData !== undefined)
-                return CloudTranslation._configurationData;
-            CloudTranslation._configurationData = JSON.parse($('#cloudtranslation-config').html());
-            $('#cloudtranslation-config').remove();
-            return CloudTranslation._configurationData;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(CloudTranslation, "defaultLanguage", {
         get: function () {
             var _this = this;
             if (this._defaultLanguage !== undefined)
                 return this._defaultLanguage;
             this.languages.forEach(function (language) {
-                if (language.code.toLowerCase() === _this.configurationData.Settings.DefaultLanguage.toLowerCase())
+                if (language.code.toLowerCase() === _this._settings.defaultLanguage.toLowerCase())
                     _this._defaultLanguage = language;
             });
             return this._defaultLanguage;
@@ -212,17 +225,7 @@ var CloudTranslation = (function () {
     });
     Object.defineProperty(CloudTranslation, "languages", {
         get: function () {
-            if (CloudTranslation._languages !== undefined)
-                return CloudTranslation._languages;
-            CloudTranslation._languages = [];
-            $.each(CloudTranslation.configurationData.Languages, function (key, value) {
-                var language = new Language();
-                language.code = value.Code;
-                language.displayName = value.DisplayName;
-                language.direction = value.Direction;
-                CloudTranslation._languages.push(language);
-            });
-            return CloudTranslation._languages;
+            return this._settings.languages;
         },
         enumerable: true,
         configurable: true
@@ -247,7 +250,7 @@ var CloudTranslation = (function () {
     };
     Object.defineProperty(CloudTranslation, "direction", {
         get: function () {
-            return this.currentLanguage.direction || 'ltr';
+            return this.currentLanguage.direction;
         },
         enumerable: true,
         configurable: true
@@ -320,7 +323,7 @@ var CloudTranslation = (function () {
                     case 0:
                         if (element === undefined)
                             return [2, []];
-                        if (CloudTranslation.direction === 'rtl') {
+                        if (CloudTranslation.direction === LanguageDirection.rtl) {
                             style = element.style.cssText;
                             if (style !== undefined) {
                                 $(element).data('_ctoriginalstyle', style);
@@ -523,15 +526,20 @@ var CloudTranslation = (function () {
         return result;
     };
     CloudTranslation.switchRTLCSSValues = function (rule, name) {
-        var value = rule.style[name];
-        if (value === '')
+        name = name.split('-')[0];
+        var leftProperty = name + '-left';
+        var rightProperty = name + '-right';
+        var leftValue = rule.style[leftProperty];
+        var rightValue = rule.style[rightProperty];
+        if (leftValue === '' && rightValue === '')
             return '';
-        var style = '';
-        if (name.indexOf('left') !== -1)
-            name = name.replace('left', 'right');
-        else
-            name = name.replace('right', 'left');
-        style += name + ': ' + value + ';';
+        if (leftValue === rightValue)
+            return '';
+        if (leftValue === '')
+            leftValue = 'initial';
+        if (rightValue === '')
+            rightValue = 'initial';
+        var style = leftProperty + ': ' + rightValue + ';' + rightProperty + ': ' + leftValue + ';';
         return style;
     };
     CloudTranslation.oppositeRTLCSSValues = function (rule, name) {
@@ -623,7 +631,7 @@ var CloudTranslation = (function () {
             localStorageLanguage = this.parseLanguage(result);
         if (this.urlLanguageLocation !== undefined) {
             var urlValue_1;
-            if (this.urlLanguageLocation === 'Subdirectory')
+            if (this.urlLanguageLocation === UrlLanguageLocation.subdirectory)
                 urlValue_1 = window.location.pathname.split('/')[1];
             if (urlValue_1 !== undefined)
                 if (urlValue_1.length === 2 || (urlValue_1.length === 5 && urlValue_1.indexOf('-') === 2)) {
@@ -667,7 +675,7 @@ var CloudTranslation = (function () {
     CloudTranslation.updateUrlLanguage = function () {
         if (this.urlLanguageLocation === undefined)
             return;
-        if (this.urlLanguageLocation === 'Subdirectory') {
+        if (this.urlLanguageLocation === UrlLanguageLocation.subdirectory) {
             var pathnameSplitted = window.location.pathname.split('/');
             var currentLanguageCode = pathnameSplitted[1];
             if (currentLanguageCode.length === 2 || (currentLanguageCode.length === 5 && currentLanguageCode.indexOf('-') === 2))
@@ -694,7 +702,10 @@ var CloudTranslation = (function () {
                 switch (_d.label) {
                     case 0:
                         $('html').attr('lang', CloudTranslation.currentLanguage.code);
-                        $('html').attr('dir', CloudTranslation.direction);
+                        if (CloudTranslation.direction === LanguageDirection.rtl)
+                            $('html').attr('dir', 'rtl');
+                        else
+                            $('html').removeAttr('dir');
                         $.each(document.styleSheets, function (index, sheet) {
                             try {
                                 $.each(sheet['cssRules'] || sheet['rules'], function (ruleIndex, rule) {
@@ -704,7 +715,7 @@ var CloudTranslation = (function () {
                             }
                             catch (e) { }
                         });
-                        if (CloudTranslation.direction === 'rtl' && styleSheet === undefined)
+                        if (CloudTranslation.direction === LanguageDirection.rtl && styleSheet === undefined)
                             CloudTranslation.addRTLCSS();
                         selection = '*';
                         CloudTranslation.nonTranslatedElements.forEach(function (element) {
@@ -749,7 +760,7 @@ var CloudTranslation = (function () {
                             catch (e) { }
                         });
                         originalTexts_1 = originalTexts_1.filter(this.onlyUnique);
-                        if (!(this.translatorProvider.toLowerCase() === 'azure' && CloudTranslation.getTranslations(CloudTranslation.currentLanguage.code).translation === null)) return [3, 10];
+                        if (!(this.translatorProvider === TranslatorProvider.Azure && CloudTranslation.getTranslations(CloudTranslation.currentLanguage.code).translation === null)) return [3, 10];
                         _d.label = 7;
                     case 7:
                         _d.trys.push([7, 9, , 10]);
@@ -815,9 +826,7 @@ var CloudTranslation = (function () {
     };
     return CloudTranslation;
 }());
-CloudTranslation.updateCurrentLanguage();
-CloudTranslation.fillInLanguages();
-CloudTranslation.translateDOM();
+var cloudTranslation = function (settings) { return new CloudTranslation(settings); };
 $(document).on('change', '.cloudtranslation-selection', function () {
     return __awaiter(this, void 0, void 0, function () {
         var languageCode;

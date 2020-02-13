@@ -36,10 +36,10 @@ Initialize Cloud Translation as follows:
 ```js
 cloudTranslation({
   defaultLanguage: "en", // optional | The main language used.
-  logTranslationsFromProvider: "false", // optional | Set to true to log the translation output in the console.
+  urlLanguageLocation: UrlLanguageLocation.none, // optional | To append language in the url (ex: www.website.com/en/).
   translatorProvider: TranslatorProvider.none, // optional | Translate text using a translator provider.
   translatorProviderKey: "", // optional | The translator provider key.
-  urlLanguageLocation: "", // optional | To append language in the url (ex: www.website.com/en/).
+  logTranslationsFromProvider: "false", // optional | Set to true to log the translation output in the console.
   languages: [
     {
       code: "en",

@@ -4,7 +4,25 @@ A JavaScript library to translate HTML content into multiple languages.
 
 # Contribution
 
-Check out https://angrymonkeycloud.com/translation for contribution information.
+For TypeScript compilation please install Cloud Mate from npm
+
+```batch
+npm i -g cloudmate
+```
+
+To generate testing JavaScript file and keep watching for changes run the below:
+
+```batch
+cloudmate -w
+```
+
+When you're done, pleae update the version under package.json and run the following for generating distribution files:
+
+```batch
+cloudmate dist
+```
+
+Check out <https://angrymonkeycloud.com/translation> for more information.
 
 # Implementation
 
@@ -16,7 +34,7 @@ jQuery 2.x or 3.x: [jQuery CDN](https://code.jquery.com/), [download jQuery](htt
 
 ### Download
 
-Cloud Translation JavaScript files: [Uncompressed](https://cdn.amcapi.com/translation/1.2.1/cloudtranslation.js), [Compressed](https://cdn.amcapi.com/translation/1.2.1/cloudtranslation.min.js).
+Cloud Translation JavaScript files: [Uncompressed](https://cdn.amcapi.com/translation/1.2.2/cloudtranslation.js), [Compressed](https://cdn.amcapi.com/translation/1.2.2/cloudtranslation.min.js).
 
 ### CDN
 
@@ -24,7 +42,7 @@ Cloud Translation JavaScript Compressed
 
 ```html
 <script
-  src="https://cdn.amcapi.com/translation/1.2.1/cloudtranslation.min.js"
+  src="https://cdn.amcapi.com/translation/1.2.2/cloudtranslation.min.js"
   crossorigin="anonymous"
 ></script>
 ```
@@ -39,7 +57,7 @@ cloudTranslation({
   urlLanguageLocation: UrlLanguageLocation.none, // optional | To append language in the url (ex: www.website.com/en/).
   translatorProvider: TranslatorProvider.none, // optional | Translate text using a translator provider.
   translatorProviderKey: "", // optional | The translator provider key.
-  logTranslationsFromProvider: "false", // optional | Set to true to log the translation output in the console.
+  logTranslationsFromProvider: false, // optional | Set to true to log the translation output in the console.
   languages: [
     {
       code: "en",

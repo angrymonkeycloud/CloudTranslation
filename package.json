@@ -1,6 +1,6 @@
 {
     "name": "cloudtranslation",
-    "version": "1.0.0",
+    "version": "1.2.2",
     "description": "JavaScript library for translating websites into multiple languages.",
     "main": "./dist/cloudtranslation.js",
     "scripts": {
@@ -16,14 +16,5 @@
         "html"
     ],
     "author": "Angry Monkey",
-    "license": "ISC",
-    "dependencies": {},
-    "devDependencies": {
-        "gulp": "^4.0.0",
-        "gulp-minify": "^3.1.0",
-        "gulp-rename": "^1.4.0",
-        "gulp-typescript": "^5.0.1",
-        "jquery": "^3.4.1",
-        "typescript": "^3.5.3"
-    }
+    "license": "ISC"
 }

@@ -212,16 +212,24 @@ class CloudTranslation{
 
         let jsonPath = 'translation/' + this.currentLanguage.code.toLowerCase() + '.json';
 
-        const fetchResponse = await fetch(jsonPath);
+        let fetchResponse = await fetch(jsonPath);
 
         if (!fetchResponse.ok) {
-            let nullTranslations = new Translations();
-            nullTranslations.languageCode = CloudTranslation.currentLanguage.code;
-            nullTranslations.translation = null;
 
-            this._translationsList.push(nullTranslations);
+                jsonPath = location.protocol + '//' + location.host +'/' + jsonPath;
 
-            return undefined;
+                fetchResponse = await fetch(jsonPath);
+
+                if (!fetchResponse.ok) {
+
+                let nullTranslations = new Translations();
+                nullTranslations.languageCode = CloudTranslation.currentLanguage.code;
+                nullTranslations.translation = null;
+
+                this._translationsList.push(nullTranslations);
+
+                return undefined;
+            }
         }
 
         const data = await fetchResponse.json();

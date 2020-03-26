@@ -815,7 +815,7 @@ class CloudTranslation{
 
             originalTexts = originalTexts.filter(this.onlyUnique);
 
-            if (this.translatorProvider === 1 && CloudTranslation.getTranslations(CloudTranslation.currentLanguage.code).translation === null) {
+            if (this.translatorProvider === 1) {
                 try {
                     let translatedTexts = await this.azureAutoTranslate(originalTexts);
 

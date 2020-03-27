@@ -1,11 +1,11 @@
-import { CloudTranslationSettings } from "./Interfaces";
+import { CloudTranslationSettings } from "./settings";
 import { TranslatorProvider, UrlLanguageLocation, LanguageDirection, TranslationStatusResult } from "./enums";
 import { Translations, Language, TranslationValue, TranslationStatus } from "./classes";
 
 const cloudTranslation = (settings?: CloudTranslationSettings) => new CloudTranslation(settings);
 export default cloudTranslation;
 
-class CloudTranslation{
+export class CloudTranslation{
 
     public constructor(settings: CloudTranslationSettings){
         
@@ -14,6 +14,16 @@ class CloudTranslation{
         CloudTranslation.updateCurrentLanguage();
         CloudTranslation.fillInLanguages();
         CloudTranslation.translateDOM();
+
+        $(document).on('change', '.cloudtranslation-selection', async function () {
+
+            let languageCode = $(this).val().toString();
+
+            if (languageCode !== '')
+                CloudTranslation.setCurrentLanguage(languageCode);
+
+            await CloudTranslation.translateDOM();
+        });
     }
     
     private mergeSettings(_settings: CloudTranslationSettings): CloudTranslationSettings {
@@ -196,7 +206,7 @@ class CloudTranslation{
         return this.defaultLanguage;
     }
 
-    private static get direction(): LanguageDirection {
+    static get direction(): LanguageDirection {
 
         return this.currentLanguage.direction;
     }
@@ -264,7 +274,7 @@ class CloudTranslation{
         return translation.text.replace(text.trim(), translation.text);
     }
 
-    private static async translateElement(element: HTMLElement): Promise<TranslationStatus[]> {
+    static async translateElement(element: HTMLElement): Promise<TranslationStatus[]> {
 
         if (element === undefined)
             return [];
@@ -874,13 +884,3 @@ class CloudTranslation{
         });
     }
 }
-
-$(document).on('change', '.cloudtranslation-selection', async function () {
-
-    let languageCode = $(this).val().toString();
-
-    if (languageCode !== '')
-        CloudTranslation.setCurrentLanguage(languageCode);
-
-    await CloudTranslation.translateDOM();
-});

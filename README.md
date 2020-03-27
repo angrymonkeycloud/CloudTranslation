@@ -34,7 +34,7 @@ jQuery 2.x or 3.x: [jQuery CDN](https://code.jquery.com/), [download jQuery](htt
 
 ### Download
 
-Cloud Translation JavaScript files: [Uncompressed](https://cdn.amcapi.com/translation/1.2.4/cloudtranslation.js), [Compressed](https://cdn.amcapi.com/translation/1.2.4/cloudtranslation.min.js).
+Cloud Translation JavaScript files: [Uncompressed](https://cdn.amcapi.com/translation/1.2.5/cloudtranslation.js), [Compressed](https://cdn.amcapi.com/translation/1.2.5/cloudtranslation.min.js).
 
 ### CDN
 
@@ -42,7 +42,7 @@ Cloud Translation JavaScript Compressed
 
 ```html
 <script
-  src="https://cdn.amcapi.com/translation/1.2.4/cloudtranslation.min.js"
+  src="https://cdn.amcapi.com/translation/1.2.5/cloudtranslation.min.js"
   crossorigin="anonymous"
 ></script>
 ```

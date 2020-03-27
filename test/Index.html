@@ -34,6 +34,8 @@
 
     <img class="logo" title="Logo" src="../img/CloudLogo-64x64.png" />
 
+    <button id="expandButton">Expand/Collapse</button>
+
     <div class="designBox">
         <div></div>
     </div>
@@ -85,6 +87,26 @@
                 displayName: 'العربية',
                 direction: LanguageDirection.rtl
             }]
+        });
+
+        // Get selected language code.
+        console.log(CloudTranslation.currentLanguage.code);
+
+        $(document).click('#expandButton', function() {
+
+            let div = document.querySelector('#newDiv');
+
+            if (div === null) {
+                div = document.createElement('div');
+                div.id = 'newDiv';
+                div.innerHTML = "Logo";
+
+                $(div).insertAfter('#expandButton');
+
+                CloudTranslation.translateElement(div);
+            } else {
+                $(div).remove();
+            }
         });
     </script>
 </body>

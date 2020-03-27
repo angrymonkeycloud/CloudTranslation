@@ -53,7 +53,7 @@
         "input": [
             "src/enums.ts",
             "src/classes.ts",
-            "src/Interfaces.ts",
+            "src/settings.ts",
             "src/main.ts"
         ],
         "builds": ["dev", "dist"]

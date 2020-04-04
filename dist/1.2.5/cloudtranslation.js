@@ -1,49 +1,45 @@
 var exports = {};
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var LanguageDirection;
 (function (LanguageDirection) {
     LanguageDirection[LanguageDirection["ltr"] = 0] = "ltr";
     LanguageDirection[LanguageDirection["rtl"] = 1] = "rtl";
-})(LanguageDirection = exports.LanguageDirection || (exports.LanguageDirection = {}));
+})(LanguageDirection || (LanguageDirection = {}));
 var TranslationStatusResult;
 (function (TranslationStatusResult) {
     TranslationStatusResult[TranslationStatusResult["ignored"] = 1] = "ignored";
     TranslationStatusResult[TranslationStatusResult["succeeded"] = 2] = "succeeded";
     TranslationStatusResult[TranslationStatusResult["failed"] = 3] = "failed";
-})(TranslationStatusResult = exports.TranslationStatusResult || (exports.TranslationStatusResult = {}));
+})(TranslationStatusResult || (TranslationStatusResult = {}));
 var TranslatorProvider;
 (function (TranslatorProvider) {
     TranslatorProvider[TranslatorProvider["none"] = 0] = "none";
     TranslatorProvider[TranslatorProvider["Azure"] = 1] = "Azure";
-})(TranslatorProvider = exports.TranslatorProvider || (exports.TranslatorProvider = {}));
+})(TranslatorProvider || (TranslatorProvider = {}));
 var UrlLanguageLocation;
 (function (UrlLanguageLocation) {
     UrlLanguageLocation[UrlLanguageLocation["none"] = 0] = "none";
     UrlLanguageLocation[UrlLanguageLocation["subdirectory"] = 1] = "subdirectory";
-})(UrlLanguageLocation = exports.UrlLanguageLocation || (exports.UrlLanguageLocation = {}));
+})(UrlLanguageLocation || (UrlLanguageLocation = {}));
 
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var Translations = (function () {
     function Translations() {
         this.translation = [];
     }
     return Translations;
 }());
-exports.Translations = Translations;
+{ Translations };
 var TranslationValue = (function () {
     function TranslationValue() {
     }
     return TranslationValue;
 }());
-exports.TranslationValue = TranslationValue;
+{ TranslationValue };
 var Language = (function () {
     function Language() {
     }
     return Language;
 }());
-exports.Language = Language;
+{ Language };
 var TranslationStatus = (function () {
     function TranslationStatus(element, result, text) {
         this.element = element;
@@ -52,12 +48,9 @@ var TranslationStatus = (function () {
     }
     return TranslationStatus;
 }());
-exports.TranslationStatus = TranslationStatus;
+{ TranslationStatus };
 
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -94,11 +87,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-
-
 var cloudTranslation = function (settings) { return new CloudTranslation(settings); };
-exports.default = cloudTranslation;
+cloudTranslation;
 var CloudTranslation = (function () {
     function CloudTranslation(settings) {
         CloudTranslation._settings = this.mergeSettings(settings);
@@ -892,5 +882,5 @@ var CloudTranslation = (function () {
     };
     return CloudTranslation;
 }());
-exports.CloudTranslation = CloudTranslation;
+{ CloudTranslation };
 

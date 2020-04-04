@@ -17,7 +17,8 @@
                     "noEmitOnError": false,
                     "removeComments": true,
                     "target": "es5",
-                    "lib": ["ES2015", "DOM"]
+                    "lib": ["ES2015", "DOM"],
+                    "module": "ES6"
                 }
             }
         },
@@ -43,7 +44,8 @@
                     "noEmitOnError": false,
                     "removeComments": true,
                     "target": "es5",
-                    "lib": ["ES2015", "DOM"]
+                    "lib": ["ES2015", "DOM"],
+                    "module": "ES6"
                 }
             }
         }

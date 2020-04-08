@@ -64,5 +64,9 @@
     }, {
         "o": "email@domainname.com",
         "t": "email@domainname.com"
+    },
+    {
+        "o": "search",
+        "t": "البحث"
     }
 ]

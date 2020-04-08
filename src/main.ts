@@ -22,6 +22,7 @@ export class CloudTranslation{
             if (languageCode !== '')
                 CloudTranslation.setCurrentLanguage(languageCode);
 
+            CloudTranslation.scrollToTop(200);
             await CloudTranslation.translateDOM();
         });
     }
@@ -107,7 +108,7 @@ export class CloudTranslation{
     }
 
     private static get stylePropertiesToOpposite(): string[] {
-        return ['text-align', 'float', 'background-position-x'];
+        return ['text-align', 'justify-content', 'justify-self', 'float', 'background-position-x'];
     }
 
     private static get translatorProviderKey(): string {
@@ -348,6 +349,12 @@ export class CloudTranslation{
             translationStatuses.push(status);
         } catch (e) { }
 
+        if (element.tagName === 'INPUT')
+            try {
+                let status = await CloudTranslation.translateElementPlaceholder(element as HTMLInputElement);
+                translationStatuses.push(status);
+            } catch (e) { }
+
         return translationStatuses;
     }
 
@@ -402,6 +409,26 @@ export class CloudTranslation{
             case TranslationStatusResult.failed:
                 element.title = translationStatus.text;
                 translationStatus.attribute = 'title';
+                return translationStatus;
+
+            default:
+                return translationStatus;
+        }
+    }
+
+    private static async translateElementPlaceholder(element: HTMLInputElement): Promise<TranslationStatus> {
+
+        let translationStatus = await CloudTranslation.translate(element, '_ctoriginalplaceholder', element.placeholder);
+
+        switch (translationStatus.result) {
+
+            case TranslationStatusResult.succeeded:
+                element.placeholder = translationStatus.text;
+                return translationStatus;
+
+            case TranslationStatusResult.failed:
+                element.placeholder = translationStatus.text;
+                translationStatus.attribute = 'placeholder';
                 return translationStatus;
 
             default:
@@ -862,7 +889,6 @@ export class CloudTranslation{
 
         }
 
-        this.scrollToTop(200);
         this._currentLanguage = undefined;
     }
 

@@ -1,6 +1,6 @@
 {
     "name": "cloudtranslation",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "description": "JavaScript library for translating websites into multiple languages.",
     "main": "./dist/cloudtranslation.js",
     "scripts": {

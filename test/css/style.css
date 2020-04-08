@@ -23,3 +23,27 @@
     width: 100%;
     height: 100%;
 }
+
+.grid {
+    display: grid;
+    grid-template-columns: .25fr .75fr;
+    grid-template-areas: "left right";
+}
+
+.grid>div {
+    height: 40px;
+}
+
+.grid-left {
+    grid-area: left;
+    background-color: cornflowerblue;
+    color: #fff;
+    text-align: left;
+}
+
+.grid-right {
+    grid-area: right;
+    background-color: darkgreen;
+    color: #fff;
+    text-align: right;
+}
